@@ -15,10 +15,13 @@ public class PasswordPuzzle {
         Scanner scanner = new Scanner(System.in);
 
         // 选择难度
-        System.out.println("请选择难度（简单/困难）：");
+        System.out.println("请输入难度（简单/困难），默认为简单难度：");
         String difficulty = scanner.nextLine().trim();
         isHardMode = difficulty.equalsIgnoreCase("困难");
         colorPoolSize = isHardMode ? 7 : 4;
+
+        // 显示颜色索引提示
+        displayColorIndex();
 
         // 生成密码
         password = generatePassword(colorPoolSize);
@@ -124,6 +127,7 @@ public class PasswordPuzzle {
                 System.out.println(" | " + ANSIColors.GREEN + " ● ".repeat(green) +
                                  ANSIColors.WHITE + " ● ".repeat(white) +
                                  ANSIColors.RESET + " ○ ".repeat(4 - green - white));
+                System.out.println();
             } else {
                 // 简单模式：直接显示每个位置是否正确
                 System.out.print("| ");
@@ -135,18 +139,19 @@ public class PasswordPuzzle {
                     }
                 }
                 System.out.println();
+                System.out.println();
             }
         }
     }
 
     // 获取用户输入
     private boolean getUserGuess(Scanner scanner) {
-        System.out.println("请输入你的猜测（4个颜色数字，用空格分隔，例如：1 2 3 4）：");
+        System.out.println("请输入你的猜测（4个颜色数字索引，用空格分隔，例如：1 2 3 4）：");
         String input = scanner.nextLine().trim();
         String[] parts = input.split("\\s+");
 
         if (parts.length != 4) {
-            System.out.println("输入必须包含4个颜色数字！");
+            System.out.println("输入必须包含4个颜色数字索引！");
             return false;
         }
 
@@ -156,7 +161,7 @@ public class PasswordPuzzle {
                 guess[i] = Integer.parseInt(parts[i]);
             }
         } catch (NumberFormatException e) {
-            System.out.println("输入必须是数字！");
+            System.out.println("输入的猜测必须是颜色数字索引！");
             return false;
         }
 
@@ -176,6 +181,16 @@ public class PasswordPuzzle {
     private void displayPasswordWithColors(int[] password) {
         for (int color : password) {
             System.out.print(ANSIColors.getColorBlock(color) + " ");
+        }
+        System.out.println();
+    }
+    
+    // 显示颜色索引提示
+    private void displayColorIndex() {
+        System.out.println("颜色索引提示：");
+        for (int i = 0; i < colorPoolSize; i++) {
+            System.out.print(i + ": " + ANSIColors.getColorBlock(i));
+            System.out.print(" ");
         }
         System.out.println();
     }
