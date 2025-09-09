@@ -39,7 +39,7 @@ public class PasswordPuzzle {
             displayHints();
             if (getUserGuess(scanner)) {
                 if (Arrays.equals(guesses.getLast(), password)) {
-                    System.out.println("恭喜！你破解了密码！");
+                    System.out.println(ANSIColors.CYAN + "恭喜！你破解了密码！" + ANSIColors.RESET);
                     return;
                 }
                 remainingAttempts--;
@@ -47,7 +47,7 @@ public class PasswordPuzzle {
         }
 
         // 游戏失败
-        System.out.println("尝试次数用完，游戏失败！");
+        System.out.println(ANSIColors.RED + "尝试次数用完，游戏失败！" + ANSIColors.RESET);
         System.out.print("正确密码是：");
         displayPasswordWithColors(password);
     }
