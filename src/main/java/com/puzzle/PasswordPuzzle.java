@@ -43,7 +43,8 @@ public class PasswordPuzzle {
 
         // 游戏失败
         System.out.println("尝试次数用完，游戏失败！");
-        System.out.println("正确密码是：" + Arrays.toString(password));
+        System.out.print("正确密码是：");
+        displayPasswordWithColors(password);
     }
 
     // 生成密码（4个不重复的颜色）
@@ -83,8 +84,10 @@ public class PasswordPuzzle {
         for (int i = 0; i < guesses.size(); i++) {
             int[] guess = guesses.get(i);
             System.out.print("猜测 " + (i + 1) + ": ");
+            
+            // 显示彩色方块
             for (int color : guess) {
-                System.out.print(color + " ");
+                System.out.print(ANSIColors.getColorBlock(color) + "  ");
             }
 
             if (isHardMode) {
@@ -116,14 +119,17 @@ public class PasswordPuzzle {
                     white += Math.min(countInGuess, countInPassword);
                 }
 
-                System.out.println(" | 绿灯: " + green + ", 白灯: " + white);
+                System.out.println(" | " + ANSIColors.GREEN + " ● ".repeat(green) +
+                                 ANSIColors.WHITE + " ● ".repeat(white) +
+                                 ANSIColors.RESET + " ○ ".repeat(4 - green - white));
             } else {
                 // 简单模式：直接显示每个位置是否正确
+                System.out.print("| ");
                 for (int j = 0; j < 4; j++) {
                     if (guess[j] == password[j]) {
-                        System.out.print("✓ ");
+                        System.out.print(ANSIColors.GREEN + "✓ " + ANSIColors.RESET);
                     } else {
-                        System.out.print("✗ ");
+                        System.out.print(ANSIColors.RED + "✗ " + ANSIColors.RESET);
                     }
                 }
                 System.out.println();
@@ -162,5 +168,13 @@ public class PasswordPuzzle {
 
         guesses.add(guess);
         return true;
+    }
+    
+    // 显示带颜色的密码
+    private void displayPasswordWithColors(int[] password) {
+        for (int color : password) {
+            System.out.print(ANSIColors.getColorBlock(color) + " ");
+        }
+        System.out.println();
     }
 }
