@@ -63,7 +63,8 @@ public class PasswordPuzzle {
         Collections.shuffle(colorList);
         int[] password = new int[4];
         for (int i = 0; i < 4; i++) {
-            password[i] = colorList.get(i);
+            // 将索引从0开始改为从1开始便于理解
+            password[i] = colorList.get(i) + 1;
         }
         return password;
     }
@@ -75,6 +76,11 @@ public class PasswordPuzzle {
             int[] guess = new int[4];
             for (int i = 0; i < 4; i++) {
                 guess[i] = (int) (Math.random() * colorPoolSize);
+            }
+            // 调整比较逻辑以适应新的索引系统
+            for (int i = 0; i < guess.length; i++) {
+                // 将索引从0开始改为从1开始便于理解
+                guess[i] += 1;
             }
             if (!Arrays.equals(guess, password)) {
                 hints.add(guess);
@@ -92,7 +98,8 @@ public class PasswordPuzzle {
             
             // 显示彩色方块
             for (int color : guess) {
-                System.out.print(ANSIColors.getColorBlock(color) + "  ");
+                // 调整颜色索引以适应ANSIColors中的颜色映射
+                System.out.print(ANSIColors.getColorBlock(color - 1) + "  ");
             }
 
             if (isHardMode) {
@@ -110,9 +117,10 @@ public class PasswordPuzzle {
                 Map<Integer, Integer> guessColors = new HashMap<>();
 
                 for (int j = 0; j < 4; j++) {
+                    // 调整颜色索引以进行正确比较
                     if (guess[j] != password[j]) {
-                        passwordColors.put(password[j], passwordColors.getOrDefault(password[j], 0) + 1);
-                        guessColors.put(guess[j], guessColors.getOrDefault(guess[j], 0) + 1);
+                        passwordColors.put(password[j] - 1, passwordColors.getOrDefault(password[j] - 1, 0) + 1);
+                        guessColors.put(guess[j] - 1, guessColors.getOrDefault(guess[j] - 1, 0) + 1);
                     }
                 }
 
@@ -165,10 +173,10 @@ public class PasswordPuzzle {
             return false;
         }
 
-        // 检查颜色是否在有效范围内
+        // 检查颜色索引是否在有效范围内（现在是从1开始，不是0）
         for (int color : guess) {
-            if (color < 0 || color >= colorPoolSize) {
-                System.out.println("颜色必须在 0~" + (colorPoolSize - 1) + " 之间！");
+            if (color < 1 || color > colorPoolSize) {
+                System.out.println("颜色必须在 1~" + colorPoolSize + " 之间！");
                 return false;
             }
         }
@@ -180,16 +188,19 @@ public class PasswordPuzzle {
     // 显示带颜色的密码
     private void displayPasswordWithColors(int[] password) {
         for (int color : password) {
-            System.out.print(ANSIColors.getColorBlock(color) + " ");
+            // 调整颜色索引以适应ANSIColors中的颜色映射
+            System.out.print(ANSIColors.getColorBlock(color - 1) + " ");
         }
         System.out.println();
     }
     
     // 显示颜色索引提示
     private void displayColorIndex() {
-        System.out.println("颜色索引提示：");
-        for (int i = 0; i < colorPoolSize; i++) {
-            System.out.print(i + ": " + ANSIColors.getColorBlock(i));
+        System.out.println("谜题颜色索引提示：");
+        // 从1开始显示索引
+        for (int i = 1; i <= colorPoolSize; i++) {
+            // 调整索引以适应颜色映射
+            System.out.print(i + ": " + ANSIColors.getColorBlock(i - 1));
             System.out.print(" ");
         }
         System.out.println();
