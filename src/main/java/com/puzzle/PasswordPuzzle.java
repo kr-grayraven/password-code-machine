@@ -18,6 +18,13 @@ public class PasswordPuzzle {
         System.out.println("请输入难度（简单/困难），默认为简单难度：");
         String difficulty = scanner.nextLine().trim();
         isHardMode = difficulty.equalsIgnoreCase("困难");
+        if (isHardMode){
+            System.out.println(ANSIColors.RED + "困难模式启用" + ANSIColors.RESET);
+            System.out.println();
+        }else {
+            System.out.println(ANSIColors.CYAN + "简单模式启用" + ANSIColors.RESET);
+            System.out.println();
+        }
         colorPoolSize = isHardMode ? 7 : 4;
 
         // 显示颜色索引提示
@@ -154,12 +161,30 @@ public class PasswordPuzzle {
 
     // 获取用户输入
     private boolean getUserGuess(Scanner scanner) {
-        System.out.println("请输入你的猜测（4个颜色数字索引，用空格分隔，例如：1 2 3 4）：");
+        System.out.println("请输入你的猜测（4个颜色数字索引，用空格分隔或直接输入，例如：1 2 3 4 或 1234）：");
         String input = scanner.nextLine().trim();
-        String[] parts = input.split("\\s+");
+        
+        // 解析输入，支持两种格式：空格分隔或连续数字
+        String[] parts;
+        if (input.contains(" ")) {
+            // 使用空格分隔的格式
+            parts = input.split("\\s+");
+        } else {
+            // 使用连续数字的格式
+            if (input.length() != 4) {
+                System.out.println();
+                System.out.println(ANSIColors.YELLOW + "输入必须包含4个颜色数字索引！" + ANSIColors.RESET);
+                return false;
+            }
+            parts = new String[4];
+            for (int i = 0; i < 4; i++) {
+                parts[i] = String.valueOf(input.charAt(i));
+            }
+        }
 
         if (parts.length != 4) {
-            System.out.println("输入必须包含4个颜色数字索引！");
+            System.out.println();
+            System.out.println(ANSIColors.YELLOW + "输入必须包含4个颜色数字索引！" + ANSIColors.RESET);
             return false;
         }
 
@@ -169,14 +194,16 @@ public class PasswordPuzzle {
                 guess[i] = Integer.parseInt(parts[i]);
             }
         } catch (NumberFormatException e) {
-            System.out.println("输入的猜测必须是颜色数字索引！");
+            System.out.println();
+            System.out.println(ANSIColors.YELLOW + "输入的猜测必须是颜色数字索引！" + ANSIColors.RESET);
             return false;
         }
 
         // 检查颜色索引是否在有效范围内（现在是从1开始，不是0）
         for (int color : guess) {
             if (color < 1 || color > colorPoolSize) {
-                System.out.println("颜色必须在 1~" + colorPoolSize + " 之间！");
+                System.out.println();
+                System.out.println(ANSIColors.YELLOW + "合法的颜色索引必须在1~" + colorPoolSize + "之间！" + ANSIColors.RESET);
                 return false;
             }
         }
