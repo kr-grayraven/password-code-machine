@@ -1,5 +1,7 @@
 package com.puzzle;
 
+import com.puzzle.util.ANSIColors;
+
 import java.util.*;
 
 public class PasswordPuzzle {

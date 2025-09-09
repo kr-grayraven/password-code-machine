@@ -1,4 +1,4 @@
-package com.puzzle;
+package com.puzzle.util;
 
 public class ANSIColors {
     // 重置
@@ -36,15 +36,15 @@ public class ANSIColors {
     
     // 获取对应颜色的方块
     public static String getColorBlock(int colorIndex) {
-        switch (colorIndex) {
-            case 0: return BLACK_BLOCK;
-            case 1: return RED_BLOCK;
-            case 2: return GREEN_BLOCK;
-            case 3: return YELLOW_BLOCK;
-            case 4: return BLUE_BLOCK;
-            case 5: return PURPLE_BLOCK;
-            case 6: return CYAN_BLOCK;
-            default: return WHITE_BLOCK;
-        }
+        return switch (colorIndex) {
+            case 0 -> BLACK_BLOCK;
+            case 1 -> RED_BLOCK;
+            case 2 -> GREEN_BLOCK;
+            case 3 -> YELLOW_BLOCK;
+            case 4 -> BLUE_BLOCK;
+            case 5 -> PURPLE_BLOCK;
+            case 6 -> CYAN_BLOCK;
+            default -> WHITE_BLOCK;
+        };
     }
 }
