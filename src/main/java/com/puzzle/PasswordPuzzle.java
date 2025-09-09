@@ -53,6 +53,8 @@ public class PasswordPuzzle {
         // 游戏主循环
         while (remainingAttempts > 0) {
             displayHints();
+            // 这行用于加粗显示剩余猜测次数
+            System.out.println("剩余猜测次数: " + ANSIColors.GREEN + "\033[1m" + remainingAttempts + "\033[0m" + ANSIColors.RESET);
             if (getUserGuess(scanner)) {
                 if (Arrays.equals(guesses.getLast(), password)) {
                     System.out.println(ANSIColors.CYAN + "恭喜！你破解了密码！" + ANSIColors.RESET);
