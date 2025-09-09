@@ -38,7 +38,7 @@ public class PasswordPuzzle {
         while (remainingAttempts > 0) {
             displayHints();
             if (getUserGuess(scanner)) {
-                if (Arrays.equals(guesses.get(guesses.size() - 1), password)) {
+                if (Arrays.equals(guesses.getLast(), password)) {
                     System.out.println("恭喜！你破解了密码！");
                     return;
                 }
