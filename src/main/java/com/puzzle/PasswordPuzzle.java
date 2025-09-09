@@ -13,61 +13,77 @@ public class PasswordPuzzle {
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
+        boolean playAgain = true;
 
-        // 选择难度
-        System.out.println(ANSIColors.BLUE + "是否启用困难模式？ 输入 [1] 或 [是] 确认" + ANSIColors.RESET);
-        String difficultyInput = scanner.nextLine().trim();
+        while (playAgain) {
+            // 选择难度
+            System.out.println(ANSIColors.BLUE + "是否启用困难模式？ 输入 [1] 或 [是] 确认" + ANSIColors.RESET);
+            String difficultyInput = scanner.nextLine().trim();
 
-        // 处理难度选择，true为困难，false为简单，程序默认为简单难度
-        isHardMode = false;
-        if (!difficultyInput.isEmpty()) {
-            if (difficultyInput.equals("1") || difficultyInput.equalsIgnoreCase("是")) {
-                isHardMode = true;
-            }else {
-                System.out.println("无效的输入，使用默认难度简单模式");
-            }
-        }
-        if (isHardMode){
-            System.out.println(ANSIColors.RED + "困难模式启用" + ANSIColors.RESET);
-            System.out.println();
-        }else {
-            System.out.println(ANSIColors.CYAN + "简单模式启用" + ANSIColors.RESET);
-            System.out.println();
-        }
-        colorPoolSize = isHardMode ? 7 : 4;
-
-        // 显示颜色索引提示
-        displayColorIndex();
-
-        // 生成密码
-        password = generatePassword(colorPoolSize);
-
-        // 生成默认提示行（1~5行，不含密码）
-        int defaultHintsCount = (int) (Math.random() * 5) + 1; // 1~5
-        List<int[]> defaultHints = generateDefaultHints(colorPoolSize, password, defaultHintsCount);
-        guesses.addAll(defaultHints);
-
-        // 剩余尝试次数
-        int remainingAttempts = TOTAL_ROWS - guesses.size();
-
-        // 游戏主循环
-        while (remainingAttempts > 0) {
-            displayHints();
-            // 这行用于加粗显示剩余猜测次数
-            System.out.println("剩余猜测次数: " + ANSIColors.GREEN + "\033[1m" + remainingAttempts + "\033[0m" + ANSIColors.RESET);
-            if (getUserGuess(scanner)) {
-                if (Arrays.equals(guesses.getLast(), password)) {
-                    System.out.println(ANSIColors.CYAN + "恭喜！你破解了密码！" + ANSIColors.RESET);
-                    return;
+            // 处理难度选择，true为困难，false为简单，程序默认为简单难度
+            isHardMode = false;
+            if (!difficultyInput.isEmpty()) {
+                if (difficultyInput.equals("1") || difficultyInput.equalsIgnoreCase("是")) {
+                    isHardMode = true;
+                }else {
+                    System.out.println("无效的输入，使用默认难度简单模式");
                 }
-                remainingAttempts--;
+            }
+            if (isHardMode){
+                System.out.println(ANSIColors.RED + "困难模式启用" + ANSIColors.RESET);
+                System.out.println();
+            }else {
+                System.out.println(ANSIColors.CYAN + "简单模式启用" + ANSIColors.RESET);
+                System.out.println();
+            }
+            colorPoolSize = isHardMode ? 7 : 4;
+
+            // 显示颜色索引提示
+            displayColorIndex();
+
+            // 生成密码
+            password = generatePassword(colorPoolSize);
+
+            // 生成默认提示行（1~5行，不含密码）
+            int defaultHintsCount = (int) (Math.random() * 5) + 1; // 1~5
+            List<int[]> defaultHints = generateDefaultHints(colorPoolSize, password, defaultHintsCount);
+            guesses.clear();
+            guesses.addAll(defaultHints);
+
+            // 剩余尝试次数
+            int remainingAttempts = TOTAL_ROWS - guesses.size();
+
+            // 游戏主循环
+            boolean gameWon = false;
+            while (remainingAttempts > 0) {
+                displayHints();
+                // 这行用于加粗显示剩余猜测次数
+                System.out.println("剩余猜测次数: " + ANSIColors.GREEN + "\033[1m" + remainingAttempts + "\033[0m" + ANSIColors.RESET);
+                if (getUserGuess(scanner)) {
+                    if (Arrays.equals(guesses.getLast(), password)) {
+                        System.out.println(ANSIColors.CYAN + "恭喜！你破解了密码！" + ANSIColors.RESET);
+                        gameWon = true;
+                        break;
+                    }
+                    remainingAttempts--;
+                }
+            }
+
+            // 游戏失败
+            if (!gameWon) {
+                System.out.println(ANSIColors.RED + "尝试次数用完，游戏失败！" + ANSIColors.RESET);
+                System.out.print("正确密码是：");
+                displayPasswordWithColors(password);
+            }
+
+            // 询问是否再次游戏
+            System.out.println("\n是否再次游戏？输入 [1] 或 [是] 确认，输入其他任意内容退出游戏");
+            String playAgainInput = scanner.nextLine().trim();
+            if (!(playAgainInput.equals("1") || playAgainInput.equalsIgnoreCase("是"))) {
+                playAgain = false;
+                System.out.println(ANSIColors.GREEN + "感谢游戏！再见！" + ANSIColors.RESET);
             }
         }
-
-        // 游戏失败
-        System.out.println(ANSIColors.RED + "尝试次数用完，游戏失败！" + ANSIColors.RESET);
-        System.out.print("正确密码是：");
-        displayPasswordWithColors(password);
     }
 
     // 生成密码（4个不重复的颜色）
