@@ -15,9 +15,18 @@ public class PasswordPuzzle {
         Scanner scanner = new Scanner(System.in);
 
         // 选择难度
-        System.out.println("请输入难度（简单/困难），默认为简单难度：");
-        String difficulty = scanner.nextLine().trim();
-        isHardMode = difficulty.equalsIgnoreCase("困难");
+        System.out.println(ANSIColors.BLUE + "是否启用困难模式？ 输入 [1] 或 [是] 确认" + ANSIColors.RESET);
+        String difficultyInput = scanner.nextLine().trim();
+
+        // 处理难度选择，true为困难，false为简单，程序默认为简单难度
+        isHardMode = false;
+        if (!difficultyInput.isEmpty()) {
+            if (difficultyInput.equals("1") || difficultyInput.equalsIgnoreCase("是")) {
+                isHardMode = true;
+            }else {
+                System.out.println("无效的输入，使用默认难度简单模式");
+            }
+        }
         if (isHardMode){
             System.out.println(ANSIColors.RED + "困难模式启用" + ANSIColors.RESET);
             System.out.println();
