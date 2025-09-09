@@ -13,7 +13,6 @@ public class ANSIColors {
     public static final String WHITE = "\u001B[37m";
     
     // 背景色
-    public static final String BG_BLACK = "\u001B[40m";
     public static final String BG_RED = "\u001B[41m";
     public static final String BG_GREEN = "\u001B[42m";
     public static final String BG_YELLOW = "\u001B[43m";
