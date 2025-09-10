@@ -35,10 +35,8 @@ public class PasswordPuzzle {
                 }
                 if (isHardMode){
                     System.out.println(ANSIColors.RED + "困难模式启用" + ANSIColors.RESET);
-                    System.out.println();
                 }else {
                     System.out.println(ANSIColors.CYAN + "简单模式启用" + ANSIColors.RESET);
-                    System.out.println();
                 }
                 colorPoolSize = isHardMode ? 7 : 4;
 
@@ -280,6 +278,8 @@ public class PasswordPuzzle {
     
     // 显示颜色索引提示
     private void displayColorIndex() {
+        // 这个换行输出用于格式化文本，避免与输入练字
+        System.out.println();
         System.out.println("谜题颜色索引提示：");
         // 从1开始显示索引
         for (int i = 1; i <= colorPoolSize; i++) {
