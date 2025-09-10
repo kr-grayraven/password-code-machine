@@ -3,6 +3,7 @@ package com.puzzle;
 import com.puzzle.util.ANSIColors;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 public class PasswordPuzzle {
     private static final int TOTAL_ROWS = 7; // 总行数
@@ -11,11 +12,14 @@ public class PasswordPuzzle {
     private boolean isHardMode;
     private int colorPoolSize;
 
+    Logger log = Logger.getLogger(PasswordPuzzle.class.getName());
+
     public void start() {
         boolean playAgain = true;
+        Scanner scanner = new Scanner(System.in);
 
         while (playAgain) {
-            try (Scanner scanner = new Scanner(System.in)) {
+            try {
                 // 选择难度
                 System.out.println(ANSIColors.BLUE + "是否启用困难模式？ 输入 [1] 或 [是] 确认" + ANSIColors.RESET);
                 String difficultyInput = scanner.nextLine().trim();
@@ -83,6 +87,12 @@ public class PasswordPuzzle {
                     playAgain = false;
                     System.out.println(ANSIColors.GREEN + "感谢游戏！再见！" + ANSIColors.RESET);
                 }
+            } catch(Exception e) {
+                System.out.println(ANSIColors.RED + "发生错误，详情请看日志信息！" + ANSIColors.RESET);
+                log.severe(e.getMessage());
+            }finally {
+                scanner.close();
+                System.out.println(ANSIColors.GREEN + "游戏结束，输入程序关闭成功！" + ANSIColors.RESET);
             }
         }
     }
@@ -172,13 +182,32 @@ public class PasswordPuzzle {
                                  ANSIColors.RESET + " ○ ".repeat(4 - green - white));
                 System.out.println();
             } else {
-                // 简单模式：直接显示每个位置是否正确
+                // 简单模式：显示每个位置的详细反馈
                 System.out.print("| ");
+                // 统计密码中各颜色的数量
+                Map<Integer, Integer> passwordColorCount = new HashMap<>();
+                for (int color : password) {
+                    passwordColorCount.put(color, passwordColorCount.getOrDefault(color, 0) + 1);
+                }
+                
+                // 统计猜测中各颜色的数量
+                Map<Integer, Integer> guessColorCount = new HashMap<>();
+                for (int color : guess) {
+                    guessColorCount.put(color, guessColorCount.getOrDefault(color, 0) + 1);
+                }
+                
                 for (int j = 0; j < 4; j++) {
                     if (guess[j] == password[j]) {
-                        System.out.print(ANSIColors.GREEN + "✓ " + ANSIColors.RESET);
+                        // 位置和颜色都正确
+                        System.out.print(ANSIColors.GREEN + "● " + ANSIColors.RESET);
+                    } else if (passwordColorCount.containsKey(guess[j]) && passwordColorCount.get(guess[j]) > 0) {
+                        // 颜色正确但位置错误
+                        System.out.print(ANSIColors.WHITE + "● " + ANSIColors.RESET);
+                        // 减少密码中该颜色的可用计数
+                        passwordColorCount.put(guess[j], passwordColorCount.get(guess[j]) - 1);
                     } else {
-                        System.out.print(ANSIColors.RED + "✗ " + ANSIColors.RESET);
+                        // 颜色和位置都不正确
+                        System.out.print(ANSIColors.WHITE + "○ " + ANSIColors.RESET);
                     }
                 }
                 System.out.println();
