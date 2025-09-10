@@ -22,6 +22,7 @@ public class PasswordPuzzle {
             try {
                 // 选择难度
                 System.out.println(ANSIColors.BLUE + "是否启用困难模式？ 输入 [1] 或 [是] 确认" + ANSIColors.RESET);
+                System.out.println("提示：简单模式显示每个颜色与位置是否正确，困难模式只会显示有几个颜色正确或几个颜色与位置都正确");
                 String difficultyInput = scanner.nextLine().trim();
 
                 // 处理难度选择，true为困难，false为简单，程序默认为简单难度
