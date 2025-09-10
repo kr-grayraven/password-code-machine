@@ -63,8 +63,7 @@ public class PasswordPuzzle {
                     if (getUserGuess(scanner)) {
                         if (Arrays.equals(guesses.getLast(), password)) {
                             System.out.println(ANSIColors.CYAN + "恭喜！你破解了密码！" + ANSIColors.RESET);
-                            System.out.print("正确密码是：");
-                            displayPasswordWithColors(password);
+                            displayPasswordAndIndex();
                             gameWon = true;
                             break;
                         }
@@ -75,8 +74,7 @@ public class PasswordPuzzle {
                 // 游戏失败
                 if (!gameWon) {
                     System.out.println(ANSIColors.RED + "尝试次数用完，游戏失败！" + ANSIColors.RESET);
-                    System.out.print("正确密码是：");
-                    displayPasswordWithColors(password);
+                    displayPasswordAndIndex();
                 }
 
                 // 询问是否再次游戏
@@ -290,5 +288,13 @@ public class PasswordPuzzle {
             System.out.print(" ");
         }
         System.out.println();
+    }
+
+    // 显示正确密码并输出密码索引
+    private void displayPasswordAndIndex() {
+        System.out.print("正确密码是：");
+        displayPasswordWithColors(password);
+        System.out.print("索引序列为：");
+        System.out.println(Arrays.toString(password));
     }
 }
