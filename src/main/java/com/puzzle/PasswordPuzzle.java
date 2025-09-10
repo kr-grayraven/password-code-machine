@@ -42,9 +42,6 @@ public class PasswordPuzzle {
                 }
                 colorPoolSize = isHardMode ? 7 : 4;
 
-                // 显示颜色索引提示
-                displayColorIndex();
-
                 // 生成密码
                 password = generatePassword(colorPoolSize);
 
@@ -66,6 +63,8 @@ public class PasswordPuzzle {
                     if (getUserGuess(scanner)) {
                         if (Arrays.equals(guesses.getLast(), password)) {
                             System.out.println(ANSIColors.CYAN + "恭喜！你破解了密码！" + ANSIColors.RESET);
+                            System.out.print("正确密码是：");
+                            displayPasswordWithColors(password);
                             gameWon = true;
                             break;
                         }
@@ -136,6 +135,9 @@ public class PasswordPuzzle {
 
     // 显示所有提示行
     private void displayHints() {
+        // 显示颜色索引提示
+        displayColorIndex();
+        // 显示当前所有猜测结果
         System.out.println("\n当前提示：");
         for (int i = 0; i < guesses.size(); i++) {
             int[] guess = guesses.get(i);
