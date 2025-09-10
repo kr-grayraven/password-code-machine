@@ -70,6 +70,7 @@ public class PasswordPuzzle {
                     System.out.println("剩余猜测次数: " + ANSIColors.GREEN + "\033[1m" + remainingAttempts + "\033[0m" + ANSIColors.RESET);
                     if (getUserGuess(scanner)) {
                         if (Arrays.equals(guesses.getLast(), password)) {
+                            displayHints();
                             System.out.println(ANSIColors.CYAN + "恭喜！你破解了密码！" + ANSIColors.RESET);
                             displayPasswordAndIndex();
                             gameWon = true;
@@ -81,6 +82,7 @@ public class PasswordPuzzle {
 
                 // 游戏失败
                 if (!gameWon) {
+                    displayHints();
                     System.out.println(ANSIColors.RED + "尝试次数用完，游戏失败！" + ANSIColors.RESET);
                     displayPasswordAndIndex();
                 }
@@ -143,7 +145,7 @@ public class PasswordPuzzle {
         // 显示颜色索引提示
         displayColorIndex();
         // 显示当前所有猜测结果
-        System.out.println("\n当前提示：");
+        System.out.println("\n当前作答：");
         for (int i = 0; i < guesses.size(); i++) {
             int[] guess = guesses.get(i);
             System.out.print("猜测 " + (i + 1) + ": ");
@@ -155,6 +157,7 @@ public class PasswordPuzzle {
             }
 
             if (isHardMode) {
+                // 困难模式，只反馈详情的数量，不显示具体位置
                 int green = 0, white = 0;
 
                 // 计算绿灯（颜色和位置都正确）
