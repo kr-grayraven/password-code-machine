@@ -16,10 +16,9 @@ public class PasswordPuzzle {
 
     public void start() {
         boolean playAgain = true;
-        Scanner scanner = new Scanner(System.in);
 
-        while (playAgain) {
-            try {
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (playAgain) {
                 // 选择难度
                 System.out.println(ANSIColors.BLUE + "是否启用困难模式？ 输入 [1] 或 [是] 确认" + ANSIColors.RESET);
                 System.out.println("提示：简单模式显示每个颜色与位置是否正确，困难模式只会显示有几个颜色正确或几个颜色与位置都正确");
@@ -30,13 +29,13 @@ public class PasswordPuzzle {
                 if (!difficultyInput.isEmpty()) {
                     if (difficultyInput.equals("1") || difficultyInput.equalsIgnoreCase("是")) {
                         isHardMode = true;
-                    }else {
+                    } else {
                         System.out.println("无效的输入，使用默认难度简单模式");
                     }
                 }
-                if (isHardMode){
+                if (isHardMode) {
                     System.out.println(ANSIColors.RED + "困难模式启用" + ANSIColors.RESET);
-                }else {
+                } else {
                     System.out.println(ANSIColors.CYAN + "简单模式启用" + ANSIColors.RESET);
                 }
                 colorPoolSize = isHardMode ? 7 : 4;
@@ -83,13 +82,12 @@ public class PasswordPuzzle {
                     playAgain = false;
                     System.out.println(ANSIColors.GREEN + "感谢游戏！再见！" + ANSIColors.RESET);
                 }
-            } catch(Exception e) {
-                System.out.println(ANSIColors.RED + "发生错误，详情请看日志信息！" + ANSIColors.RESET);
-                log.severe(e.getMessage());
-            }finally {
-                scanner.close();
-                System.out.println(ANSIColors.GREEN + "游戏结束，输入程序关闭成功！" + ANSIColors.RESET);
             }
+        } catch (Exception e) {
+            System.out.println(ANSIColors.RED + "发生错误，详情请看日志信息！" + ANSIColors.RESET);
+            log.severe(e.getMessage());
+        } finally {
+            System.out.println(ANSIColors.GREEN + "游戏结束，输入程序关闭成功！" + ANSIColors.RESET);
         }
     }
 
@@ -139,7 +137,7 @@ public class PasswordPuzzle {
         for (int i = 0; i < guesses.size(); i++) {
             int[] guess = guesses.get(i);
             System.out.print("猜测 " + (i + 1) + ": ");
-            
+
             // 显示彩色方块
             for (int color : guess) {
                 // 调整颜色索引以适应ANSIColors中的颜色映射
@@ -177,8 +175,8 @@ public class PasswordPuzzle {
                 }
 
                 System.out.println(" | " + ANSIColors.GREEN + " ● ".repeat(green) +
-                                 ANSIColors.WHITE + " ● ".repeat(white) +
-                                 ANSIColors.RESET + " ○ ".repeat(4 - green - white));
+                        ANSIColors.WHITE + " ● ".repeat(white) +
+                        ANSIColors.RESET + " ○ ".repeat(4 - green - white));
                 System.out.println();
             } else {
                 // 简单模式：显示每个位置的详细反馈
@@ -188,13 +186,13 @@ public class PasswordPuzzle {
                 for (int color : password) {
                     passwordColorCount.put(color, passwordColorCount.getOrDefault(color, 0) + 1);
                 }
-                
+
                 // 统计猜测中各颜色的数量
                 Map<Integer, Integer> guessColorCount = new HashMap<>();
                 for (int color : guess) {
                     guessColorCount.put(color, guessColorCount.getOrDefault(color, 0) + 1);
                 }
-                
+
                 for (int j = 0; j < 4; j++) {
                     if (guess[j] == password[j]) {
                         // 位置和颜色都正确
@@ -219,7 +217,7 @@ public class PasswordPuzzle {
     private boolean getUserGuess(Scanner scanner) {
         System.out.println("请输入你的猜测（4个颜色数字索引，用空格分隔或直接输入，例如：1 2 3 4 或 1234）：");
         String input = scanner.nextLine().trim();
-        
+
         // 解析输入，支持两种格式：空格分隔或连续数字
         String[] parts;
         if (input.contains(" ")) {
@@ -267,7 +265,7 @@ public class PasswordPuzzle {
         guesses.add(guess);
         return true;
     }
-    
+
     // 显示带颜色的密码
     private void displayPasswordWithColors(int[] password) {
         for (int color : password) {
@@ -276,7 +274,7 @@ public class PasswordPuzzle {
         }
         System.out.println();
     }
-    
+
     // 显示颜色索引提示
     private void displayColorIndex() {
         // 这个换行输出用于格式化文本，避免与输入练字
