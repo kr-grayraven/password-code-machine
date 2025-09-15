@@ -93,13 +93,12 @@ public class PasswordPuzzle {
                 if (!(playAgainInput.equals("1") || playAgainInput.equalsIgnoreCase("是"))) {
                     playAgain = false;
                     System.out.println(ANSIColors.GREEN + "感谢游戏！再见！" + ANSIColors.RESET);
+                    System.out.println(ANSIColors.GREEN + "游戏结束，输入程序已自动关闭！" + ANSIColors.RESET);
                 }
             }
         } catch (Exception e) {
             System.out.println(ANSIColors.RED + "发生错误，详情请看日志信息！" + ANSIColors.RESET);
             log.severe(e.getMessage());
-        } finally {
-            System.out.println(ANSIColors.GREEN + "游戏结束，输入程序关闭成功！" + ANSIColors.RESET);
         }
     }
 
