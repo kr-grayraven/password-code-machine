@@ -27,6 +27,8 @@ public class PasswordPuzzle {
         boolean playAgain = true;
 
         try (Scanner scanner = new Scanner(System.in)) {
+            displayGameInfo();
+
             while (playAgain) {
                 // 选择难度
                 System.out.println(ANSIColors.BLUE + "是否启用困难模式？ 输入 [1] 或 [是] 确认" + ANSIColors.RESET);
@@ -300,5 +302,41 @@ public class PasswordPuzzle {
         displayPasswordWithColors(password);
         System.out.print("索引序列为：");
         System.out.println(Arrays.toString(password));
+    }
+
+    // 程序说明与游戏规则
+    private void displayGameInfo(){
+        System.out.println(ANSIColors.CYAN + "===================================" + ANSIColors.RESET);
+        System.out.println(ANSIColors.CYAN + "        欢迎来到密码破译游戏！" + ANSIColors.RESET);
+        System.out.println(ANSIColors.CYAN + "===================================" + ANSIColors.RESET);
+        System.out.println();
+        System.out.println("游戏规则说明：");
+        System.out.println("1. 系统会生成一个由4个不同颜色数字组成的密码");
+        System.out.println("2. 你需要通过猜测来破译这个密码，输入相应的密码序列");
+        System.out.println("3. 每次猜测后，系统会给出反馈帮助你接近正确答案");
+        System.out.println("4. 程序会随机生成默认猜测次数，你至多有7次猜测机会");
+        System.out.println("5. 密码必定为不重复序列，如 [1, 2, 3, 4]");
+        System.out.println();
+        System.out.println("游戏模式：");
+        System.out.println("● 简单模式：直观显示每个位置的颜色、位置是否正确");
+        System.out.println("  ○ 绿色实心圆（" + ANSIColors.GREEN + "●" + ANSIColors.RESET + "）：颜色和位置都正确");
+        System.out.println("  ○ 白色实心圆（" + ANSIColors.WHITE + "●" + ANSIColors.RESET + "）：颜色正确但位置错误");
+        System.out.println("  ○ 白色空心圆（○）：颜色不在密码中");
+        System.out.println();
+        System.out.println("● 困难模式：只显示正确颜色的数量，不提示具体的答案细节");
+        System.out.println("  ○ 绿色实心圆（" + ANSIColors.GREEN + "●" + ANSIColors.RESET + "）：颜色和位置都正确的数量");
+        System.out.println("  ○ 白色实心圆（" + ANSIColors.WHITE + "●" + ANSIColors.RESET + "）：颜色正确但位置错误的数量");
+        System.out.println("  ○ 白色空心圆（○）：颜色和位置都不对的数量");
+        System.out.println();
+        System.out.println("操作说明：");
+        System.out.println("- 输入4个数字作为你的猜测，数字间可以用空格分隔，也可以直接连接");
+        System.out.println("  例如：1 2 3 4 或 1234");
+        System.out.println("- 数字代表颜色索引，根据游戏开始时显示的颜色索引提示进行选择");
+        System.out.println("- 简单模式使用颜色索引1-5，困难模式使用颜色索引1-7");
+        System.out.println();
+        System.out.println(ANSIColors.BLUE + "注意：请确保你的终端支持彩色字符显示，否则程序将无法正确回显彩色字块" + ANSIColors.RESET);
+        System.out.println();
+        System.out.println(ANSIColors.CYAN + "===================================" + ANSIColors.RESET);
+        System.out.println();
     }
 }
