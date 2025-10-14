@@ -15,6 +15,8 @@ body {
     line-height: 1.6;
     position: relative;
     overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* 魔法粒子背景效果 */
@@ -602,7 +604,10 @@ body::before {
     gap: 15px;
     max-height: 400px;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 10px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 }
 
 .guess-row {
@@ -1203,6 +1208,20 @@ body::before {
 }
 
 /* 响应式设计 */
+@media (max-width: 1024px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .game-container {
+        padding: 20px;
+    }
+    
+    .guesses-container {
+        max-height: 300px;
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 10px;
@@ -1212,26 +1231,81 @@ body::before {
         font-size: 2rem;
     }
     
+    .game-subtitle {
+        font-size: 1rem;
+    }
+    
+    .mode-selection {
+        padding: 25px;
+    }
+    
+    .mode-selection h2 {
+        font-size: 1.8rem;
+    }
+    
     .mode-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 20px;
     }
     
     .mode-btn {
         min-width: 250px;
+        padding: 25px;
     }
     
     .game-info {
         flex-direction: column;
         text-align: center;
+        gap: 10px;
+        padding: 15px;
     }
     
-    .input-row {
-        flex-direction: column;
+    .game-container {
+        padding: 20px;
     }
     
-    #guess-input {
-        width: 100%;
+    .guesses-container {
+        max-height: 250px;
+        padding: 8px;
+    }
+    
+    .guess-container {
+        padding: 20px;
+    }
+    
+    .current-guess-colors {
+        gap: 10px;
+    }
+    
+    .guess-slot {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .guess-slot .color-block {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .color-selection-palette {
+        gap: 10px;
+    }
+    
+    .color-selection-btn {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .floating-rules-window {
+        width: 320px;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .modal-content {
+        padding: 30px;
+        margin: 20px;
     }
     
     .modal-buttons {
@@ -1243,32 +1317,375 @@ body::before {
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     .game-title {
+        font-size: 1.8rem;
+    }
+    
+    .game-title::before,
+    .game-title::after {
+        display: none;
+    }
+    
+    .mode-selection {
+        padding: 20px;
+    }
+    
+    .mode-selection h2 {
         font-size: 1.5rem;
     }
     
     .mode-btn {
+        min-width: 220px;
         padding: 20px;
-        min-width: 200px;
     }
     
-    .color-palette {
+    .mode-icon {
+        font-size: 3rem;
+    }
+    
+    .mode-btn h3 {
+        font-size: 1.4rem;
+    }
+    
+    .guesses-container {
+        max-height: 200px;
+    }
+    
+    .guess-row {
+        padding: 12px;
         gap: 10px;
     }
     
-    .color-block {
-        width: 35px;
-        height: 35px;
-    }
-    
-    .guess-colors {
-        gap: 5px;
+    .guess-number {
+        min-width: 50px;
+        font-size: 0.9rem;
     }
     
     .guess-color {
         width: 30px;
         height: 30px;
+    }
+    
+    .feedback-dot {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .current-guess-colors {
+        gap: 8px;
+    }
+    
+    .guess-slot {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .guess-slot .color-block {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .color-selection-palette {
+        gap: 8px;
+    }
+    
+    .color-selection-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .action-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 100px;
+    }
+    
+    .floating-rules-window {
+        width: calc(100vw - 20px);
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 8px;
+    }
+    
+    .game-title {
+        font-size: 1.5rem;
+    }
+    
+    .game-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .mode-selection {
+        padding: 15px;
+    }
+    
+    .mode-selection h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+    
+    .mode-btn {
+        padding: 15px;
+        min-width: 200px;
+    }
+    
+    .mode-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .mode-btn h3 {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+    
+    .mode-btn p {
+        font-size: 0.9rem;
+    }
+    
+    .game-container {
+        padding: 15px;
+    }
+    
+    .game-info {
+        padding: 12px;
+    }
+    
+    .info-item {
+        gap: 8px;
+    }
+    
+    .info-label {
+        font-size: 0.9rem;
+    }
+    
+    .info-value {
+        font-size: 1rem;
+    }
+    
+    .new-game-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .color-reference h3 {
+        font-size: 1.1rem;
+    }
+    
+    .color-palette {
+        gap: 8px;
+    }
+    
+    .color-block {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .color-number {
+        font-size: 0.8rem;
+    }
+    
+    .guesses-container {
+        max-height: 180px;
+        padding: 5px;
+    }
+    
+    .guess-row {
+        padding: 10px;
+        gap: 8px;
+    }
+    
+    .guess-number {
+        min-width: 40px;
+        font-size: 0.8rem;
+    }
+    
+    .guess-colors {
+        gap: 4px;
+    }
+    
+    .guess-color {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .feedback {
+        gap: 3px;
+    }
+    
+    .feedback-dot {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .guess-container {
+        padding: 15px;
+    }
+    
+    .current-guess h3,
+    .color-selection h3 {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+    
+    .current-guess-colors {
+        gap: 6px;
+        margin-bottom: 15px;
+    }
+    
+    .guess-slot {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .guess-slot .color-block {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .guess-slot .slot-placeholder {
+        font-size: 1.2rem;
+    }
+    
+    .color-selection-palette {
+        gap: 6px;
+    }
+    
+    .color-selection-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .color-selection-btn .color-number {
+        width: 16px;
+        height: 16px;
+        font-size: 0.7rem;
+        top: -6px;
+        right: -6px;
+    }
+    
+    .guess-actions {
+        gap: 10px;
+    }
+    
+    .action-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        min-width: 90px;
+    }
+    
+    .rules-toggle {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .floating-rules-window {
+        width: calc(100vw - 16px);
+        bottom: 8px;
+        right: 8px;
+        left: 8px;
+    }
+    
+    .floating-window-header {
+        padding: 12px 15px;
+    }
+    
+    .floating-window-header h3 {
+        font-size: 1rem;
+    }
+    
+    .floating-window-content {
+        padding: 15px;
+        max-height: 50vh;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        margin: 15px;
+    }
+    
+    .modal-icon {
+        font-size: 3rem;
+    }
+    
+    .modal-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .modal-content p {
+        font-size: 1rem;
+    }
+    
+    .correct-password .color-block {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 360px) {
+    .game-title {
+        font-size: 1.3rem;
+    }
+    
+    .mode-selection h2 {
+        font-size: 1.2rem;
+    }
+    
+    .mode-btn {
+        min-width: 180px;
+        padding: 12px;
+    }
+    
+    .mode-icon {
+        font-size: 2rem;
+    }
+    
+    .mode-btn h3 {
+        font-size: 1.1rem;
+    }
+    
+    .mode-btn p {
+        font-size: 0.8rem;
+    }
+    
+    .guesses-container {
+        max-height: 150px;
+    }
+    
+    .guess-slot {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .guess-slot .color-block {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .color-selection-btn {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .color-selection-btn .color-number {
+        width: 14px;
+        height: 14px;
+        font-size: 0.6rem;
+        top: -5px;
+        right: -5px;
+    }
+    
+    .action-btn {
+        padding: 6px 12px;
+        font-size: 0.7rem;
+        min-width: 80px;
     }
 }
 
@@ -1312,19 +1729,55 @@ body::before {
 
 /* 滚动条样式 */
 .guesses-container::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 .guesses-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
+    background: rgba(255, 192, 203, 0.1);
+    border-radius: 3px;
 }
 
 .guesses-container::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 4px;
+    background: linear-gradient(135deg, #ff9a9e, #fecfef);
+    border-radius: 3px;
+    transition: background 0.3s ease;
 }
 
 .guesses-container::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
+    background: linear-gradient(135deg, #ff6b9d, #ff9a9e);
+}
+
+/* 移动设备滚动优化 */
+@media (max-width: 768px) {
+    .guesses-container::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    .guesses-container {
+        scrollbar-width: thin;
+        scrollbar-color: #ff9a9e rgba(255, 192, 203, 0.1);
+    }
+}
+
+/* 确保内容不会被截断 */
+.guesses-container {
+    min-height: 100px;
+}
+
+/* 添加滚动提示 */
+.guesses-container::after {
+    content: '';
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.8));
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.guesses-container.scrollable::after {
+    opacity: 1;
 }

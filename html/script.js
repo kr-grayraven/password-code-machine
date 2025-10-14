@@ -619,8 +619,26 @@ class PasswordPuzzleGame {
             container.appendChild(row);
         });
         
-        // 滚动到底部
-        container.scrollTop = container.scrollHeight;
+        // 滚动到底部 - 使用平滑滚动
+        setTimeout(() => {
+            container.scrollTo({
+                top: container.scrollHeight,
+                behavior: 'smooth'
+            });
+            
+            // 检查是否需要显示滚动提示
+            this.updateScrollIndicator(container);
+        }, 100);
+    }
+    
+    // 更新滚动指示器
+    updateScrollIndicator(container) {
+        const isScrollable = container.scrollHeight > container.clientHeight;
+        if (isScrollable) {
+            container.classList.add('scrollable');
+        } else {
+            container.classList.remove('scrollable');
+        }
     }
     
     // 切换浮动规则窗口
