@@ -53,7 +53,7 @@ class PasswordPuzzleGame {
         
         // 游戏规则切换
         document.getElementById('rules-toggle').addEventListener('click', () => {
-            this.showFloatingRules();
+            this.toggleFloatingRules();
         });
         
         // 关闭浮动规则窗口
@@ -606,11 +606,28 @@ class PasswordPuzzleGame {
         container.scrollTop = container.scrollHeight;
     }
     
+    // 切换浮动规则窗口
+    toggleFloatingRules() {
+        const floatingWindow = document.getElementById('floating-rules-window');
+        const rulesToggle = document.getElementById('rules-toggle');
+        
+        if (floatingWindow.classList.contains('hidden')) {
+            this.showFloatingRules();
+        } else {
+            this.hideFloatingRules();
+        }
+    }
+    
     // 显示浮动规则窗口
     showFloatingRules() {
         const floatingWindow = document.getElementById('floating-rules-window');
+        const rulesToggle = document.getElementById('rules-toggle');
+        
         floatingWindow.classList.remove('hidden');
         floatingWindow.classList.add('slide-in-from-bottom-right');
+        
+        // 更新按钮文本
+        rulesToggle.textContent = '📜 关闭规则';
         
         // 清理动画类
         setTimeout(() => {
@@ -621,7 +638,12 @@ class PasswordPuzzleGame {
     // 隐藏浮动规则窗口
     hideFloatingRules() {
         const floatingWindow = document.getElementById('floating-rules-window');
+        const rulesToggle = document.getElementById('rules-toggle');
+        
         floatingWindow.classList.add('slide-out-to-bottom-right');
+        
+        // 更新按钮文本
+        rulesToggle.textContent = '📜 魔法规则';
         
         setTimeout(() => {
             floatingWindow.classList.add('hidden');
