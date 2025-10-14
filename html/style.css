@@ -1014,6 +1014,64 @@ body::before {
     left: 0;
 }
 
+/* 关于信息窗口样式 */
+.floating-window-content .about-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(255, 154, 158, 0.1), rgba(168, 237, 234, 0.1));
+    border-radius: 12px;
+    border-left: 4px solid #ff9a9e;
+}
+
+.floating-window-content .about-section h4 {
+    margin-bottom: 12px;
+    color: #d63384;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.floating-window-content .about-section p {
+    margin-bottom: 10px;
+    color: #555;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.floating-window-content .about-section p strong {
+    color: #d63384;
+    font-weight: 600;
+}
+
+.floating-window-content .about-section ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.floating-window-content .about-section li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+    color: #555;
+    line-height: 1.5;
+}
+
+.floating-window-content .about-section li::before {
+    content: "🌟";
+    color: #ff9a9e;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+.floating-window-content .about-section li strong {
+    color: #d63384;
+    font-weight: 600;
+}
+
 @keyframes slideInFromBottomRight {
     0% { 
         opacity: 0;

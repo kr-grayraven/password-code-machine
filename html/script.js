@@ -61,10 +61,27 @@ class PasswordPuzzleGame {
             this.hideFloatingRules();
         });
         
+        // 关于信息切换
+        document.getElementById('about-toggle').addEventListener('click', () => {
+            this.toggleFloatingAbout();
+        });
+        
+        // 关闭浮动关于信息窗口
+        document.getElementById('close-about-btn').addEventListener('click', () => {
+            this.hideFloatingAbout();
+        });
+        
         // 点击浮动窗口外部关闭
         document.getElementById('floating-rules-window').addEventListener('click', (e) => {
             if (e.target.id === 'floating-rules-window') {
                 this.hideFloatingRules();
+            }
+        });
+        
+        // 点击关于信息窗口外部关闭
+        document.getElementById('floating-about-window').addEventListener('click', (e) => {
+            if (e.target.id === 'floating-about-window') {
+                this.hideFloatingAbout();
             }
         });
         
@@ -644,6 +661,51 @@ class PasswordPuzzleGame {
         
         // 更新按钮文本
         rulesToggle.textContent = '📜 魔法规则';
+        
+        setTimeout(() => {
+            floatingWindow.classList.add('hidden');
+            floatingWindow.classList.remove('slide-out-to-bottom-right');
+        }, 600);
+    }
+    
+    // 切换浮动关于信息窗口
+    toggleFloatingAbout() {
+        const floatingWindow = document.getElementById('floating-about-window');
+        const aboutToggle = document.getElementById('about-toggle');
+        
+        if (floatingWindow.classList.contains('hidden')) {
+            this.showFloatingAbout();
+        } else {
+            this.hideFloatingAbout();
+        }
+    }
+    
+    // 显示浮动关于信息窗口
+    showFloatingAbout() {
+        const floatingWindow = document.getElementById('floating-about-window');
+        const aboutToggle = document.getElementById('about-toggle');
+        
+        floatingWindow.classList.remove('hidden');
+        floatingWindow.classList.add('slide-in-from-bottom-right');
+        
+        // 更新按钮文本
+        aboutToggle.textContent = 'ℹ️ 关闭关于';
+        
+        // 清理动画类
+        setTimeout(() => {
+            floatingWindow.classList.remove('slide-in-from-bottom-right');
+        }, 600);
+    }
+    
+    // 隐藏浮动关于信息窗口
+    hideFloatingAbout() {
+        const floatingWindow = document.getElementById('floating-about-window');
+        const aboutToggle = document.getElementById('about-toggle');
+        
+        floatingWindow.classList.add('slide-out-to-bottom-right');
+        
+        // 更新按钮文本
+        aboutToggle.textContent = 'ℹ️ 关于信息';
         
         setTimeout(() => {
             floatingWindow.classList.add('hidden');
