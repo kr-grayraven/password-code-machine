@@ -251,10 +251,40 @@ class PasswordPuzzleGame {
     
     // 清空当前猜测
     clearCurrentGuess() {
+        // 检查是否有颜色需要清空
+        const hasColors = this.currentGuess.some(color => color !== null);
+        
+        if (!hasColors) {
+            this.showMessage('当前没有魔法色彩需要重新组合！', 'info');
+            return;
+        }
+        
+        // 添加清空特效
+        this.playClearEffect();
+        
         this.currentGuess = [null, null, null, null];
         this.selectedSlot = 0;
         this.renderCurrentGuess();
         this.updateSubmitButton();
+        
+        this.showMessage('魔法组合已重新整理！', 'success');
+    }
+    
+    // 播放清空特效
+    playClearEffect() {
+        const slots = document.querySelectorAll('.guess-slot');
+        
+        slots.forEach((slot, index) => {
+            if (this.currentGuess[index] !== null) {
+                // 添加闪烁效果
+                slot.style.animation = 'clearFlash 0.6s ease-in-out';
+                
+                // 延迟移除动画
+                setTimeout(() => {
+                    slot.style.animation = '';
+                }, 600);
+            }
+        });
     }
     
     // 选择颜色
@@ -512,11 +542,32 @@ class PasswordPuzzleGame {
         const messageDiv = document.createElement('div');
         messageDiv.className = `message-toast ${type}`;
         messageDiv.textContent = text;
+        
+        // 根据类型设置不同的样式
+        let bgColor, icon;
+        switch(type) {
+            case 'error':
+                bgColor = '#D32F2F';
+                icon = '❌';
+                break;
+            case 'success':
+                bgColor = '#4CAF50';
+                icon = '✅';
+                break;
+            case 'info':
+                bgColor = '#2196F3';
+                icon = 'ℹ️';
+                break;
+            default:
+                bgColor = '#4CAF50';
+                icon = '✅';
+        }
+        
         messageDiv.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${type === 'error' ? '#D32F2F' : '#4CAF50'};
+            background: ${bgColor};
             color: white;
             padding: 15px 20px;
             border-radius: 8px;
@@ -524,14 +575,24 @@ class PasswordPuzzleGame {
             z-index: 1001;
             font-weight: 600;
             animation: slideInRight 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         `;
+        
+        // 添加图标
+        const iconSpan = document.createElement('span');
+        iconSpan.textContent = icon;
+        messageDiv.insertBefore(iconSpan, messageDiv.firstChild);
         
         document.body.appendChild(messageDiv);
         
         setTimeout(() => {
             messageDiv.style.animation = 'slideOutRight 0.3s ease';
             setTimeout(() => {
-                document.body.removeChild(messageDiv);
+                if (document.body.contains(messageDiv)) {
+                    document.body.removeChild(messageDiv);
+                }
             }, 300);
         }, 3000);
     }
