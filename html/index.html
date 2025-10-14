@@ -11,23 +11,23 @@
     <div class="container">
         <!-- 游戏标题 -->
         <header class="game-header">
-            <h1 class="game-title">🔐 密码解谜游戏</h1>
-            <p class="game-subtitle">挑战你的逻辑推理能力</p>
+            <h1 class="game-title">✨ 魔法密码解谜 ✨</h1>
+            <p class="game-subtitle">用魔法力量破解神秘的密码组合</p>
         </header>
 
         <!-- 游戏模式选择 -->
         <div id="mode-selection" class="mode-selection">
-            <h2>选择游戏模式</h2>
+            <h2>🌟 选择魔法模式 🌟</h2>
             <div class="mode-buttons">
                 <button class="mode-btn easy-mode" data-mode="easy">
-                    <div class="mode-icon">🎯</div>
-                    <h3>简单模式</h3>
-                    <p>5种颜色，直观反馈</p>
+                    <div class="mode-icon">🌸</div>
+                    <h3>魔法新手</h3>
+                    <p>5种魔法色彩，温柔引导</p>
                 </button>
                 <button class="mode-btn hard-mode" data-mode="hard">
-                    <div class="mode-icon">🧠</div>
-                    <h3>困难模式</h3>
-                    <p>7种颜色，挑战推理</p>
+                    <div class="mode-icon">🔮</div>
+                    <h3>魔法大师</h3>
+                    <p>7种魔法色彩，终极挑战</p>
                 </button>
             </div>
         </div>
@@ -44,12 +44,12 @@
                     <span class="info-label">剩余次数:</span>
                     <span id="remaining-attempts" class="info-value"></span>
                 </div>
-                <button id="new-game-btn" class="new-game-btn">🔄 新游戏</button>
+                <button id="new-game-btn" class="new-game-btn">✨ 重新开始魔法</button>
             </div>
 
             <!-- 颜色参考 -->
             <div class="color-reference">
-                <h3>颜色参考</h3>
+                <h3>🌈 魔法色彩参考 🌈</h3>
                 <div id="color-palette" class="color-palette"></div>
             </div>
 
@@ -62,7 +62,7 @@
             <div class="guess-section">
                 <div class="guess-container">
                     <div class="current-guess">
-                        <h3>当前猜测</h3>
+                        <h3>🔮 当前魔法组合</h3>
                         <div id="current-guess-display" class="current-guess-colors">
                             <div class="guess-slot" data-position="0">
                                 <div class="slot-placeholder">?</div>
@@ -80,38 +80,38 @@
                     </div>
                     
                     <div class="color-selection">
-                        <h3>选择颜色</h3>
+                        <h3>🎨 选择魔法色彩</h3>
                         <div id="color-selection-palette" class="color-selection-palette"></div>
                     </div>
                     
                     <div class="guess-actions">
-                        <button id="submit-guess" class="action-btn submit-btn" disabled>✅ 提交猜测</button>
-                        <button id="clear-guess" class="action-btn clear-btn">🗑️ 清空</button>
+                        <button id="submit-guess" class="action-btn submit-btn" disabled>✨ 释放魔法</button>
+                        <button id="clear-guess" class="action-btn clear-btn">🔄 重新组合</button>
                     </div>
                 </div>
             </div>
 
             <!-- 游戏说明 -->
             <div class="game-rules">
-                <button id="rules-toggle" class="rules-toggle">📖 游戏规则</button>
+                <button id="rules-toggle" class="rules-toggle">📜 魔法规则</button>
                 <div id="rules-content" class="rules-content hidden">
-                    <h3>游戏规则</h3>
+                    <h3>🌟 魔法规则指南 🌟</h3>
                     <div class="rules-section">
-                        <h4>🎯 简单模式</h4>
+                        <h4>🌸 魔法新手模式</h4>
                         <ul>
-                            <li>使用5种颜色 (1-5)</li>
-                            <li>🟢 绿色圆点: 颜色和位置都正确</li>
-                            <li>⚪ 白色圆点: 颜色正确但位置错误</li>
-                            <li>⚫ 黑色圆点: 颜色和位置都错误</li>
+                            <li>使用5种魔法色彩 (1-5)</li>
+                            <li>🟢 绿色魔法球: 色彩和位置都正确</li>
+                            <li>🟡 黄色魔法球: 色彩正确但位置错误</li>
+                            <li>⚫ 黑色魔法球: 色彩和位置都错误</li>
                         </ul>
                     </div>
                     <div class="rules-section">
-                        <h4>🧠 困难模式</h4>
+                        <h4>🔮 魔法大师模式</h4>
                         <ul>
-                            <li>使用7种颜色 (1-7)</li>
-                            <li>🟢 绿色圆点: 颜色和位置都正确的个数</li>
-                            <li>⚪ 白色圆点: 颜色正确但位置错误的个数</li>
-                            <li>⚫ 黑色圆点: 颜色完全错误的个数</li>
+                            <li>使用7种魔法色彩 (1-7)</li>
+                            <li>🟢 绿色魔法球: 色彩和位置都正确的个数</li>
+                            <li>🟡 黄色魔法球: 色彩正确但位置错误的个数</li>
+                            <li>⚫ 黑色魔法球: 色彩完全错误的个数</li>
                         </ul>
                     </div>
                 </div>
@@ -121,9 +121,9 @@
         <!-- 游戏结束弹窗 -->
         <div id="game-over-modal" class="modal hidden">
             <div class="modal-content">
-                <div id="modal-icon" class="modal-icon">🎉</div>
-                <h2 id="modal-title">恭喜！</h2>
-                <p id="modal-message">你成功破解了密码！</p>
+                <div id="modal-icon" class="modal-icon">✨</div>
+                <h2 id="modal-title">魔法成功！</h2>
+                <p id="modal-message">你成功破解了魔法密码！</p>
                 <div id="correct-password" class="correct-password"></div>
                 <div class="modal-buttons">
                     <button id="play-again-btn" class="modal-btn primary">再玩一次</button>

@@ -208,7 +208,7 @@ class PasswordPuzzleGame {
         
         // 检查当前猜测是否完整
         if (this.currentGuess.some(color => color === null)) {
-            this.showMessage('请完成所有4个位置的颜色选择！', 'error');
+            this.showMessage('请完成所有4个位置的魔法色彩选择！', 'error');
             return;
         }
         
@@ -218,7 +218,7 @@ class PasswordPuzzleGame {
         );
         
         if (isDuplicate) {
-            this.showMessage('你已经猜过这个组合了！', 'error');
+            this.showMessage('你已经尝试过这个魔法组合了！', 'error');
             return;
         }
         
@@ -370,7 +370,7 @@ class PasswordPuzzleGame {
     // 更新游戏信息
     updateGameInfo() {
         document.getElementById('current-mode').textContent = 
-            this.isHardMode ? '困难模式' : '简单模式';
+            this.isHardMode ? '魔法大师' : '魔法新手';
         document.getElementById('remaining-attempts').textContent = 
             this.maxAttempts - this.currentAttempts;
     }
@@ -410,7 +410,7 @@ class PasswordPuzzleGame {
             // 猜测编号
             const number = document.createElement('div');
             number.className = 'guess-number';
-            number.textContent = `猜测 ${index + 1}`;
+            number.textContent = `魔法 ${index + 1}`;
             
             // 颜色方块
             const colors = document.createElement('div');
@@ -480,13 +480,13 @@ class PasswordPuzzleGame {
         const passwordDisplay = document.getElementById('correct-password');
         
         if (won) {
-            icon.textContent = '🎉';
-            title.textContent = '恭喜！';
-            message.textContent = '你成功破解了密码！';
+            icon.textContent = '✨';
+            title.textContent = '魔法成功！';
+            message.textContent = '你成功破解了魔法密码！';
         } else {
             icon.textContent = '😔';
-            title.textContent = '游戏结束';
-            message.textContent = '很遗憾，你没有在限定次数内破解密码。';
+            title.textContent = '魔法失败';
+            message.textContent = '很遗憾，你没有在限定次数内破解魔法密码。';
         }
         
         // 显示正确密码
