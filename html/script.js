@@ -32,7 +32,7 @@ class PasswordPuzzleGame {
         document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const mode = e.currentTarget.dataset.mode;
-                this.startGame(mode);
+                this.playModeSelectionEffect(e.currentTarget, mode);
             });
         });
         
@@ -72,6 +72,73 @@ class PasswordPuzzleGame {
                 this.closeModal();
             }
         });
+    }
+    
+    // 播放模式选择特效
+    playModeSelectionEffect(button, mode) {
+        // 禁用按钮防止重复点击
+        button.disabled = true;
+        
+        // 添加点击特效
+        this.createMagicParticles(button, mode);
+        
+        // 播放按钮动画
+        button.style.animation = 'modeSelectionMagic 1.2s ease-in-out';
+        
+        // 显示魔法消息
+        const modeText = mode === 'easy' ? '魔法新手' : '魔法大师';
+        this.showMessage(`✨ 欢迎来到${modeText}的世界！✨`, 'success');
+        
+        // 延迟启动游戏，让特效完成
+        setTimeout(() => {
+            this.startGame(mode);
+            button.disabled = false;
+            button.style.animation = '';
+        }, 1200);
+    }
+    
+    // 创建魔法粒子特效
+    createMagicParticles(button, mode) {
+        const rect = button.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        // 创建多个粒子
+        for (let i = 0; i < 12; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'magic-particle';
+            
+            // 随机位置和角度
+            const angle = (i / 12) * Math.PI * 2;
+            const distance = 80 + Math.random() * 40;
+            const x = centerX + Math.cos(angle) * distance;
+            const y = centerY + Math.sin(angle) * distance;
+            
+            particle.style.cssText = `
+                position: fixed;
+                left: ${centerX}px;
+                top: ${centerY}px;
+                width: 8px;
+                height: 8px;
+                background: ${mode === 'easy' ? '#ff9a9e' : '#ff6b9d'};
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 1000;
+                box-shadow: 0 0 10px ${mode === 'easy' ? '#ff9a9e' : '#ff6b9d'};
+                animation: magicParticleFly 1.2s ease-out forwards;
+                --target-x: ${x}px;
+                --target-y: ${y}px;
+            `;
+            
+            document.body.appendChild(particle);
+            
+            // 清理粒子
+            setTimeout(() => {
+                if (document.body.contains(particle)) {
+                    document.body.removeChild(particle);
+                }
+            }, 1200);
+        }
     }
     
     // 开始游戏
@@ -387,14 +454,46 @@ class PasswordPuzzleGame {
     
     // 显示游戏容器
     showGameContainer() {
-        document.getElementById('mode-selection').classList.add('hidden');
-        document.getElementById('game-container').classList.remove('hidden');
+        const modeSelection = document.getElementById('mode-selection');
+        const gameContainer = document.getElementById('game-container');
+        
+        // 先隐藏模式选择，然后显示游戏容器
+        modeSelection.classList.add('fade-out-down');
+        
+        setTimeout(() => {
+            modeSelection.classList.add('hidden');
+            modeSelection.classList.remove('fade-out-down');
+            
+            gameContainer.classList.remove('hidden');
+            gameContainer.classList.add('slide-in-right');
+            
+            // 清理动画类
+            setTimeout(() => {
+                gameContainer.classList.remove('slide-in-right');
+            }, 600);
+        }, 400);
     }
     
     // 显示模式选择
     showModeSelection() {
-        document.getElementById('game-container').classList.add('hidden');
-        document.getElementById('mode-selection').classList.remove('hidden');
+        const gameContainer = document.getElementById('game-container');
+        const modeSelection = document.getElementById('mode-selection');
+        
+        // 先隐藏游戏容器，然后显示模式选择
+        gameContainer.classList.add('slide-out-left');
+        
+        setTimeout(() => {
+            gameContainer.classList.add('hidden');
+            gameContainer.classList.remove('slide-out-left');
+            
+            modeSelection.classList.remove('hidden');
+            modeSelection.classList.add('fade-in-up');
+            
+            // 清理动画类
+            setTimeout(() => {
+                modeSelection.classList.remove('fade-in-up');
+            }, 600);
+        }, 400);
     }
     
     // 更新游戏信息
@@ -498,7 +597,24 @@ class PasswordPuzzleGame {
     // 切换游戏规则显示
     toggleRules() {
         const rulesContent = document.getElementById('rules-content');
-        rulesContent.classList.toggle('hidden');
+        
+        if (rulesContent.classList.contains('hidden')) {
+            // 显示规则
+            rulesContent.classList.remove('hidden');
+            rulesContent.classList.add('magic-appear');
+            
+            setTimeout(() => {
+                rulesContent.classList.remove('magic-appear');
+            }, 800);
+        } else {
+            // 隐藏规则
+            rulesContent.classList.add('magic-disappear');
+            
+            setTimeout(() => {
+                rulesContent.classList.add('hidden');
+                rulesContent.classList.remove('magic-disappear');
+            }, 500);
+        }
     }
     
     // 显示游戏结束模态框
@@ -528,12 +644,27 @@ class PasswordPuzzleGame {
             passwordDisplay.appendChild(colorBlock);
         });
         
+        // 显示模态框并添加转场特效
         modal.classList.remove('hidden');
+        modal.classList.add('modal-fade-in');
+        
+        // 清理动画类
+        setTimeout(() => {
+            modal.classList.remove('modal-fade-in');
+        }, 400);
     }
     
     // 关闭模态框
     closeModal() {
-        document.getElementById('game-over-modal').classList.add('hidden');
+        const modal = document.getElementById('game-over-modal');
+        
+        // 添加关闭动画
+        modal.classList.add('modal-fade-out');
+        
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('modal-fade-out');
+        }, 300);
     }
     
     // 显示消息
