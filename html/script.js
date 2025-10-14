@@ -16,7 +16,7 @@ class PasswordPuzzleGame {
         this.colors = [
             { name: '深绿', hex: '#2E7D32' },
             { name: '红色', hex: '#D32F2F' },
-            { name: '绿色', hex: '#388E3C' },
+            { name: '天蓝', hex: '#74efc6' },
             { name: '黄色', hex: '#F57C00' },
             { name: '蓝色', hex: '#1976D2' },
             { name: '紫色', hex: '#7B1FA2' },
