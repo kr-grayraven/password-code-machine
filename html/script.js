@@ -53,7 +53,19 @@ class PasswordPuzzleGame {
         
         // 游戏规则切换
         document.getElementById('rules-toggle').addEventListener('click', () => {
-            this.toggleRules();
+            this.showFloatingRules();
+        });
+        
+        // 关闭浮动规则窗口
+        document.getElementById('close-rules-btn').addEventListener('click', () => {
+            this.hideFloatingRules();
+        });
+        
+        // 点击浮动窗口外部关闭
+        document.getElementById('floating-rules-window').addEventListener('click', (e) => {
+            if (e.target.id === 'floating-rules-window') {
+                this.hideFloatingRules();
+            }
         });
         
         // 模态框按钮
@@ -594,27 +606,27 @@ class PasswordPuzzleGame {
         container.scrollTop = container.scrollHeight;
     }
     
-    // 切换游戏规则显示
-    toggleRules() {
-        const rulesContent = document.getElementById('rules-content');
+    // 显示浮动规则窗口
+    showFloatingRules() {
+        const floatingWindow = document.getElementById('floating-rules-window');
+        floatingWindow.classList.remove('hidden');
+        floatingWindow.classList.add('slide-in-from-bottom-right');
         
-        if (rulesContent.classList.contains('hidden')) {
-            // 显示规则
-            rulesContent.classList.remove('hidden');
-            rulesContent.classList.add('magic-appear');
-            
-            setTimeout(() => {
-                rulesContent.classList.remove('magic-appear');
-            }, 800);
-        } else {
-            // 隐藏规则
-            rulesContent.classList.add('magic-disappear');
-            
-            setTimeout(() => {
-                rulesContent.classList.add('hidden');
-                rulesContent.classList.remove('magic-disappear');
-            }, 500);
-        }
+        // 清理动画类
+        setTimeout(() => {
+            floatingWindow.classList.remove('slide-in-from-bottom-right');
+        }, 600);
+    }
+    
+    // 隐藏浮动规则窗口
+    hideFloatingRules() {
+        const floatingWindow = document.getElementById('floating-rules-window');
+        floatingWindow.classList.add('slide-out-to-bottom-right');
+        
+        setTimeout(() => {
+            floatingWindow.classList.add('hidden');
+            floatingWindow.classList.remove('slide-out-to-bottom-right');
+        }, 600);
     }
     
     // 显示游戏结束模态框

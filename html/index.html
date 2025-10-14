@@ -91,30 +91,9 @@
                 </div>
             </div>
 
-            <!-- 游戏说明 -->
+            <!-- 游戏说明按钮 -->
             <div class="game-rules">
                 <button id="rules-toggle" class="rules-toggle">📜 魔法规则</button>
-                <div id="rules-content" class="rules-content hidden">
-                    <h3>🌟 魔法规则指南 🌟</h3>
-                    <div class="rules-section">
-                        <h4>🌸 魔法新手模式</h4>
-                        <ul>
-                            <li>使用5种魔法色彩 (1-5)</li>
-                            <li>🟢 绿色魔法球: 色彩和位置都正确</li>
-                            <li>🟡 黄色魔法球: 色彩正确但位置错误</li>
-                            <li>⚫ 黑色魔法球: 色彩和位置都错误</li>
-                        </ul>
-                    </div>
-                    <div class="rules-section">
-                        <h4>🔮 魔法大师模式</h4>
-                        <ul>
-                            <li>使用7种魔法色彩 (1-7)</li>
-                            <li>🟢 绿色魔法球: 色彩和位置都正确的个数</li>
-                            <li>🟡 黄色魔法球: 色彩正确但位置错误的个数</li>
-                            <li>⚫ 黑色魔法球: 色彩完全错误的个数</li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -129,6 +108,34 @@
                     <button id="play-again-btn" class="modal-btn primary">再玩一次</button>
                     <button id="close-modal-btn" class="modal-btn secondary">关闭</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 浮动规则窗口 -->
+    <div id="floating-rules-window" class="floating-rules-window hidden">
+        <div class="floating-window-header">
+            <h3>🌟 魔法规则指南 🌟</h3>
+            <button id="close-rules-btn" class="close-rules-btn">✕</button>
+        </div>
+        <div class="floating-window-content">
+            <div class="rules-section">
+                <h4>🌸 魔法新手模式</h4>
+                <ul>
+                    <li>使用5种魔法色彩 (1-5)</li>
+                    <li>🟢 绿色魔法球: 色彩和位置都正确</li>
+                    <li>🟡 黄色魔法球: 色彩正确但位置错误</li>
+                    <li>⚫ 黑色魔法球: 色彩和位置都错误</li>
+                </ul>
+            </div>
+            <div class="rules-section">
+                <h4>🔮 魔法大师模式</h4>
+                <ul>
+                    <li>使用7种魔法色彩 (1-7)</li>
+                    <li>🟢 绿色魔法球: 色彩和位置都正确的个数</li>
+                    <li>🟡 黄色魔法球: 色彩正确但位置错误的个数</li>
+                    <li>⚫ 黑色魔法球: 色彩完全错误的个数</li>
+                </ul>
             </div>
         </div>
     </div>
