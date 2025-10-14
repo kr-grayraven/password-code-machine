@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>密码解谜游戏 - Password Puzzle</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 游戏标题 -->
+        <header class="game-header">
+            <h1 class="game-title">🔐 密码解谜游戏</h1>
+            <p class="game-subtitle">挑战你的逻辑推理能力</p>
+        </header>
+
+        <!-- 游戏模式选择 -->
+        <div id="mode-selection" class="mode-selection">
+            <h2>选择游戏模式</h2>
+            <div class="mode-buttons">
+                <button class="mode-btn easy-mode" data-mode="easy">
+                    <div class="mode-icon">🎯</div>
+                    <h3>简单模式</h3>
+                    <p>5种颜色，直观反馈</p>
+                </button>
+                <button class="mode-btn hard-mode" data-mode="hard">
+                    <div class="mode-icon">🧠</div>
+                    <h3>困难模式</h3>
+                    <p>7种颜色，挑战推理</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- 游戏主界面 -->
+        <div id="game-container" class="game-container hidden">
+            <!-- 游戏信息栏 -->
+            <div class="game-info">
+                <div class="info-item">
+                    <span class="info-label">模式:</span>
+                    <span id="current-mode" class="info-value"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">剩余次数:</span>
+                    <span id="remaining-attempts" class="info-value"></span>
+                </div>
+                <button id="new-game-btn" class="new-game-btn">🔄 新游戏</button>
+            </div>
+
+            <!-- 颜色参考 -->
+            <div class="color-reference">
+                <h3>颜色参考</h3>
+                <div id="color-palette" class="color-palette"></div>
+            </div>
+
+            <!-- 游戏棋盘 -->
+            <div class="game-board">
+                <div id="guesses-container" class="guesses-container"></div>
+            </div>
+
+            <!-- 猜测输入区域 -->
+            <div class="guess-section">
+                <div class="guess-container">
+                    <div class="current-guess">
+                        <h3>当前猜测</h3>
+                        <div id="current-guess-display" class="current-guess-colors">
+                            <div class="guess-slot" data-position="0">
+                                <div class="slot-placeholder">?</div>
+                            </div>
+                            <div class="guess-slot" data-position="1">
+                                <div class="slot-placeholder">?</div>
+                            </div>
+                            <div class="guess-slot" data-position="2">
+                                <div class="slot-placeholder">?</div>
+                            </div>
+                            <div class="guess-slot" data-position="3">
+                                <div class="slot-placeholder">?</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="color-selection">
+                        <h3>选择颜色</h3>
+                        <div id="color-selection-palette" class="color-selection-palette"></div>
+                    </div>
+                    
+                    <div class="guess-actions">
+                        <button id="submit-guess" class="action-btn submit-btn" disabled>✅ 提交猜测</button>
+                        <button id="clear-guess" class="action-btn clear-btn">🗑️ 清空</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏说明 -->
+            <div class="game-rules">
+                <button id="rules-toggle" class="rules-toggle">📖 游戏规则</button>
+                <div id="rules-content" class="rules-content hidden">
+                    <h3>游戏规则</h3>
+                    <div class="rules-section">
+                        <h4>🎯 简单模式</h4>
+                        <ul>
+                            <li>使用5种颜色 (1-5)</li>
+                            <li>🟢 绿色圆点: 颜色和位置都正确</li>
+                            <li>⚪ 白色圆点: 颜色正确但位置错误</li>
+                            <li>⚫ 黑色圆点: 颜色和位置都错误</li>
+                        </ul>
+                    </div>
+                    <div class="rules-section">
+                        <h4>🧠 困难模式</h4>
+                        <ul>
+                            <li>使用7种颜色 (1-7)</li>
+                            <li>🟢 绿色圆点: 颜色和位置都正确的个数</li>
+                            <li>⚪ 白色圆点: 颜色正确但位置错误的个数</li>
+                            <li>⚫ 黑色圆点: 颜色完全错误的个数</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 游戏结束弹窗 -->
+        <div id="game-over-modal" class="modal hidden">
+            <div class="modal-content">
+                <div id="modal-icon" class="modal-icon">🎉</div>
+                <h2 id="modal-title">恭喜！</h2>
+                <p id="modal-message">你成功破解了密码！</p>
+                <div id="correct-password" class="correct-password"></div>
+                <div class="modal-buttons">
+                    <button id="play-again-btn" class="modal-btn primary">再玩一次</button>
+                    <button id="close-modal-btn" class="modal-btn secondary">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
