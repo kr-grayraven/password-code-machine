@@ -14,13 +14,13 @@ class PasswordPuzzleGame {
         
         // 颜色定义
         this.colors = [
-            { name: '深绿', hex: '#2E7D32' },
-            { name: '红色', hex: '#D32F2F' },
-            { name: '天蓝', hex: '#74efc6' },
-            { name: '黄色', hex: '#F57C00' },
-            { name: '蓝色', hex: '#1976D2' },
-            { name: '紫色', hex: '#7B1FA2' },
-            { name: '青色', hex: '#0097A7' }
+            { name: '樱花粉', hex: '#ff9a9e' },
+            { name: '薰衣草紫', hex: '#a8edea' },
+            { name: '天空蓝', hex: '#fed6e3' },
+            { name: '珊瑚橙', hex: '#ffecd2' },
+            { name: '薄荷绿', hex: '#fcb69f' },
+            { name: '紫罗兰', hex: '#d299c2' },
+            { name: '天青色', hex: '#89f7fe' }
         ];
         
         this.initializeEventListeners();
