@@ -62,6 +62,26 @@ body::before {
     display: none !important;
 }
 
+/* 动画工具类 */
+.color-appearing {
+    animation: colorAppear 0.4s ease-out forwards;
+}
+
+.color-flying-out {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000;
+    animation: colorFlyOut 0.4s ease-out forwards;
+}
+
+.slot-glow {
+    animation: slotGlow 0.6s ease-out;
+}
+
+.color-selection-pulse {
+    animation: colorSelectionPulse 0.4s ease-out;
+}
+
 /* 转场动画类 */
 .fade-in-up {
     animation: fadeInUp 0.6s ease-out forwards;
@@ -242,6 +262,67 @@ body::before {
     100% { 
         transform: translate(var(--target-x), var(--target-y)) scale(0) rotate(360deg);
         opacity: 0;
+    }
+}
+
+/* 颜色出现动画 */
+@keyframes colorAppear {
+    0% {
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes colorFlyOut {
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes slotGlow {
+    0% {
+        box-shadow: 0 0 0 rgba(255, 107, 157, 0);
+        border-color: #667eea;
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 107, 157, 0.6);
+        border-color: #ff6b9d;
+    }
+    100% {
+        box-shadow: 0 0 0 rgba(255, 107, 157, 0);
+        border-color: #667eea;
+    }
+}
+
+@keyframes colorSelectionPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 }
 

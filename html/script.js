@@ -382,6 +382,9 @@ class PasswordPuzzleGame {
         
         slots.forEach((slot, index) => {
             if (this.currentGuess[index] !== null) {
+                // 播放颜色飞出动画
+                this.playColorFlyOutAnimation(slot, index);
+                
                 // 添加闪烁效果
                 slot.style.animation = 'clearFlash 0.6s ease-in-out';
                 
@@ -393,10 +396,42 @@ class PasswordPuzzleGame {
         });
     }
     
+    // 播放颜色飞出动画
+    playColorFlyOutAnimation(slot, slotIndex) {
+        const colorBlock = slot.querySelector('.color-block');
+        if (!colorBlock) return;
+        
+        const colorRect = colorBlock.getBoundingClientRect();
+        
+        // 创建飞出动画元素
+        const flyingOutColor = document.createElement('div');
+        flyingOutColor.className = 'color-flying-out';
+        flyingOutColor.style.cssText = `
+            left: ${colorRect.left}px;
+            top: ${colorRect.top}px;
+            width: ${colorRect.width}px;
+            height: ${colorRect.height}px;
+            background-color: ${colorBlock.style.backgroundColor};
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        `;
+        
+        document.body.appendChild(flyingOutColor);
+        
+        // 清理动画元素
+        setTimeout(() => {
+            if (document.body.contains(flyingOutColor)) {
+                document.body.removeChild(flyingOutColor);
+            }
+        }, 400);
+    }
+    
     // 选择颜色
     selectColor(colorIndex) {
         if (this.gameOver) return;
         
+        // 更新游戏状态
         this.currentGuess[this.selectedSlot] = colorIndex;
         
         // 自动移动到下一个空位置
@@ -407,8 +442,18 @@ class PasswordPuzzleGame {
             }
         }
         
+        // 渲染当前猜测并添加出现动画
         this.renderCurrentGuess();
         this.updateSubmitButton();
+        
+        // 为颜色选择按钮添加脉冲效果
+        const colorBtn = document.querySelector(`[data-color-index="${colorIndex}"]`);
+        if (colorBtn) {
+            colorBtn.classList.add('color-selection-pulse');
+            setTimeout(() => {
+                colorBtn.classList.remove('color-selection-pulse');
+            }, 400);
+        }
     }
     
     // 选择位置
@@ -462,6 +507,11 @@ class PasswordPuzzleGame {
                     const newColorBlock = document.createElement('div');
                     newColorBlock.className = 'color-block';
                     slot.appendChild(newColorBlock);
+                    // 为新创建的颜色块添加出现动画
+                    newColorBlock.classList.add('color-appearing');
+                    setTimeout(() => {
+                        newColorBlock.classList.remove('color-appearing');
+                    }, 400);
                 }
                 slot.querySelector('.color-block').style.backgroundColor = this.colors[this.currentGuess[index]].hex;
             } else {
