@@ -1077,6 +1077,44 @@ body::before {
     font-weight: 600;
 }
 
+/* 关于信息中的链接样式 */
+.floating-window-content .about-section a {
+    color: #ff6b9d;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(255, 154, 158, 0.1));
+    border: 1px solid rgba(255, 107, 157, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.floating-window-content .about-section a::before {
+    content: '🔗';
+    margin-right: 4px;
+    font-size: 0.9em;
+}
+
+.floating-window-content .about-section a:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #ff6b9d, #ff9a9e);
+    border-color: #ff6b9d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 107, 157, 0.3);
+}
+
+.floating-window-content .about-section a:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(255, 107, 157, 0.3);
+}
+
+/* GitHub链接特殊样式 */
+.floating-window-content .about-section a[href*="github.com"]::before {
+    content: '🐙';
+}
+
 @keyframes slideInFromBottomRight {
     0% { 
         opacity: 0;
@@ -1604,6 +1642,11 @@ body::before {
     .floating-window-content {
         padding: 15px;
         max-height: 50vh;
+    }
+    
+    .floating-window-content .about-section a {
+        padding: 1px 4px;
+        font-size: 0.9rem;
     }
     
     .modal-content {
