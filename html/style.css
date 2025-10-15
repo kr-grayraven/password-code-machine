@@ -1124,6 +1124,35 @@ body::before {
     content: '🐙';
 }
 
+/* 页面底部信息展示 */
+.page-footer {
+    background: linear-gradient(135deg, rgba(255, 154, 158, 0.1), rgba(168, 237, 234, 0.1));
+    border-top: 1px solid rgba(255, 192, 203, 0.2);
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-top: 40px;
+}
+
+.page-footer p {
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.page-footer a {
+    color: #ff6b9d;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.page-footer a:hover {
+    color: #d63384;
+    text-shadow: 0 1px 2px rgba(255, 192, 203, 0.3);
+}
+
 @keyframes slideInFromBottomRight {
     0% { 
         opacity: 0;
@@ -1673,6 +1702,13 @@ body::before {
         font-size: 0.9rem;
     }
     
+    /* 页面底部信息移动端样式 */
+    .page-footer {
+        padding: 15px;
+        font-size: 0.85rem;
+        margin-top: 30px;
+    }
+    
     .modal-content {
         padding: 20px;
         margin: 15px;
@@ -1693,6 +1729,13 @@ body::before {
     .correct-password .color-block {
         width: 40px;
         height: 40px;
+    }
+    
+    /* 页面底部信息小屏幕样式 */
+    .page-footer {
+        padding: 12px;
+        font-size: 0.8rem;
+        margin-top: 20px;
     }
 }
 
@@ -1758,6 +1801,13 @@ body::before {
         padding: 6px 12px;
         font-size: 0.7rem;
         min-width: 80px;
+    }
+    
+    /* 页面底部信息超小屏幕样式 */
+    .page-footer {
+        padding: 10px;
+        font-size: 0.75rem;
+        margin-top: 15px;
     }
 }
 
