@@ -310,7 +310,11 @@ class PasswordPuzzleGame {
     
     // 提交猜测
     submitGuess() {
-        if (this.gameOver) return;
+        // 检查游戏是否已结束
+        if (this.gameOver) {
+            this.showMessage('游戏结束，重玩请点击新游戏', 'info');
+            return;
+        }
         
         // 检查当前猜测是否完整
         if (this.currentGuess.some(color => color === null)) {
@@ -364,7 +368,7 @@ class PasswordPuzzleGame {
     clearCurrentGuess() {
         // 检查游戏是否已结束
         if (this.gameOver) {
-            this.showMessage('游戏结束', 'info');
+            this.showMessage('游戏结束，重玩请点击新游戏', 'info');
             return;
         }
         
