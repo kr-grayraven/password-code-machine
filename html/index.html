@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>✨ 魔法解谜 ✨</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://img.waveraven.cn/public/2024/09/10/1_favicon%20Sakura_66e055a2cb531.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 游戏标题 -->
+        <header class="game-header">
+            <h1 class="game-title">✨ 魔法解谜 ✨</h1>
+            <p class="game-subtitle">用魔法力量破解神秘的密码组合</p>
+        </header>
+
+        <!-- 游戏模式选择 -->
+        <div id="mode-selection" class="mode-selection">
+            <h2>🌟 选择魔法模式 🌟</h2>
+            <div class="mode-buttons">
+                <button class="mode-btn easy-mode" data-mode="easy">
+                    <div class="mode-icon">🌸</div>
+                    <h3>魔法新手</h3>
+                    <p>5种魔法色彩，温柔引导</p>
+                </button>
+                <button class="mode-btn hard-mode" data-mode="hard">
+                    <div class="mode-icon">🔮</div>
+                    <h3>魔法大师</h3>
+                    <p>7种魔法色彩，终极挑战</p>
+                </button>
+            </div>
+            
+            <!-- 模式选择页面的关于信息按钮 -->
+            <div class="mode-selection-rules">
+                <button id="mode-rules-toggle" class="rules-toggle">📜 魔法规则</button>
+                <button id="mode-about-toggle" class="rules-toggle">ℹ️ 关于信息</button>
+            </div>
+        </div>
+
+        <!-- 游戏主界面 -->
+        <div id="game-container" class="game-container hidden">
+            <!-- 游戏信息栏 -->
+            <div class="game-info">
+                <div class="info-item">
+                    <span class="info-label">模式:</span>
+                    <span id="current-mode" class="info-value"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">剩余次数:</span>
+                    <span id="remaining-attempts" class="info-value"></span>
+                </div>
+                <button id="new-game-btn" class="new-game-btn">✨ 重新开始魔法</button>
+            </div>
+
+            <!-- 颜色参考 -->
+            <div class="color-reference">
+                <h3>🌈 魔法色彩参考 🌈</h3>
+                <div id="color-palette" class="color-palette"></div>
+            </div>
+
+            <!-- 游戏棋盘 -->
+            <div class="game-board">
+                <div id="guesses-container" class="guesses-container"></div>
+            </div>
+
+            <!-- 猜测输入区域 -->
+            <div class="guess-section">
+                <div class="guess-container">
+                    <div class="current-guess">
+                        <h3>🔮 当前魔法组合</h3>
+                        <div id="current-guess-display" class="current-guess-colors">
+                            <div class="guess-slot" data-position="0">
+                                <div class="slot-placeholder">?</div>
+                            </div>
+                            <div class="guess-slot" data-position="1">
+                                <div class="slot-placeholder">?</div>
+                            </div>
+                            <div class="guess-slot" data-position="2">
+                                <div class="slot-placeholder">?</div>
+                            </div>
+                            <div class="guess-slot" data-position="3">
+                                <div class="slot-placeholder">?</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="color-selection">
+                        <h3>🎨 选择魔法色彩</h3>
+                        <div id="color-selection-palette" class="color-selection-palette"></div>
+                    </div>
+                    
+                    <div class="guess-actions">
+                        <button id="submit-guess" class="action-btn submit-btn" disabled>✨ 释放魔法</button>
+                        <button id="clear-guess" class="action-btn clear-btn">🔄 重新组合</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 游戏说明按钮 -->
+            <div class="game-rules">
+                <button id="rules-toggle" class="rules-toggle">📜 魔法规则</button>
+                <button id="about-toggle" class="rules-toggle">ℹ️ 关于信息</button>
+            </div>
+        </div>
+
+        <!-- 游戏结束弹窗 -->
+        <div id="game-over-modal" class="modal hidden">
+            <div class="modal-content">
+                <div id="modal-icon" class="modal-icon">✨</div>
+                <h2 id="modal-title">魔法成功！</h2>
+                <p id="modal-message">你成功破解了魔法密码！</p>
+                <div id="correct-password" class="correct-password"></div>
+                <div class="modal-buttons">
+                    <button id="play-again-btn" class="modal-btn primary">再玩一次</button>
+                    <button id="close-modal-btn" class="modal-btn secondary">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 浮动规则窗口 -->
+    <div id="floating-rules-window" class="floating-rules-window hidden">
+        <div class="floating-window-header">
+            <h3>🌟 魔法规则指南 🌟</h3>
+            <button id="close-rules-btn" class="close-rules-btn">✕</button>
+        </div>
+        <div class="floating-window-content">
+            <div class="rules-section">
+                <h4>🌸 魔法新手模式</h4>
+                <ul>
+                    <li>使用5种魔法色彩 (1-5)</li>
+                    <li>🟢 绿色魔法球: 色彩和位置都正确</li>
+                    <li>🟡 黄色魔法球: 色彩正确但位置错误</li>
+                    <li>⚫ 黑色魔法球: 色彩和位置都错误</li>
+                </ul>
+            </div>
+            <div class="rules-section">
+                <h4>🔮 魔法大师模式</h4>
+                <ul>
+                    <li>使用7种魔法色彩 (1-7)</li>
+                    <li>🟢 绿色魔法球: 色彩和位置都正确的个数</li>
+                    <li>🟡 黄色魔法球: 色彩正确但位置错误的个数</li>
+                    <li>⚫ 黑色魔法球: 色彩完全错误的个数</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 浮动关于信息窗口 -->
+    <div id="floating-about-window" class="floating-rules-window hidden">
+        <div class="floating-window-header">
+            <h3>ℹ️ 关于 ℹ️</h3>
+            <button id="close-about-btn" class="close-rules-btn">✕</button>
+        </div>
+        <div class="floating-window-content">
+            <div class="about-section">
+                <h4>🌟 项目信息</h4>
+                <p><strong>前端版本</strong>：1.1</p>
+            </div>
+            
+            <div class="about-section">
+                <h4>👥 开发团队</h4>
+                <p><strong>设计与制作 </strong>：<a href="https://github.com/li7355608" target="_blank">@灰鸦</a></p>
+                <p><strong>程序与美工 </strong>：<a href="https://github.com/li7355608" target="_blank">@灰鸦</a></p>
+                <p><strong>页面UI设计 </strong>：<a href="https://github.com/li7355608" target="_blank">@灰鸦</a></p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 页面底部信息展示 -->
+    <div class="page-footer">
+        <p>设计与制作 <a href="https://github.com/li7355608" target="_blank">@灰鸦</a></p>
+        <p>程序与美工 <a href="https://github.com/li7355608" target="_blank">@灰鸦</a></p>
+        <p><a href="https://github.com/li7355608/password-code-machine" target="_blank">password-code-machine</a></p>
+    </div>
+
+    <script src="script.js"></script>
+    <script defer src="https://log.waveraven.cn/script.js" data-website-id="cd55e207-da82-4f2d-af36-e9c3d168f9c7"></script>
+</body>
+</html>

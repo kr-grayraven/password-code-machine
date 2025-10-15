@@ -1,0 +1,1905 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #fecfef 75%, #ff9a9e 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* 魔法粒子背景效果 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255, 192, 203, 0.6), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(255, 182, 193, 0.8), transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255, 105, 180, 0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.7), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: sparkle 20s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes sparkle {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(-100px); }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 工具类 */
+.hidden {
+    display: none !important;
+}
+
+/* 转场动画类 */
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.fade-out-down {
+    animation: fadeOutDown 0.4s ease-in forwards;
+}
+
+.slide-in-right {
+    animation: slideInFromRight 0.6s ease-out forwards;
+}
+
+.slide-out-left {
+    animation: slideOutToLeft 0.4s ease-in forwards;
+}
+
+.magic-appear {
+    animation: magicAppear 0.8s ease-out forwards;
+}
+
+.magic-disappear {
+    animation: magicDisappear 0.5s ease-in forwards;
+}
+
+/* 模态框转场特效 */
+.modal-fade-in {
+    animation: modalFadeIn 0.4s ease-out forwards;
+}
+
+.modal-fade-out {
+    animation: modalFadeOut 0.3s ease-in forwards;
+}
+
+@keyframes modalFadeIn {
+    0% { 
+        opacity: 0;
+        transform: scale(0.7) translateY(-50px);
+        backdrop-filter: blur(0px);
+    }
+    100% { 
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        backdrop-filter: blur(5px);
+    }
+}
+
+@keyframes modalFadeOut {
+    0% { 
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        backdrop-filter: blur(5px);
+    }
+    100% { 
+        opacity: 0;
+        transform: scale(0.7) translateY(-50px);
+        backdrop-filter: blur(0px);
+    }
+}
+
+/* 游戏标题 */
+.game-header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+    position: relative;
+}
+
+.game-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 
+        0 0 5px rgba(255, 192, 203, 0.6),
+        0 0 10px rgba(255, 105, 180, 0.4),
+        2px 2px 4px rgba(0,0,0,0.2);
+    background: linear-gradient(45deg, #ff9a9e, #fecfef, #ff9a9e, #fecfef);
+    background-size: 300% 300%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: titleGlow 3s ease-in-out infinite alternate;
+    position: relative;
+}
+
+.game-title::before {
+    content: '✨';
+    position: absolute;
+    left: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    animation: sparkleRotate 2s linear infinite;
+}
+
+.game-title::after {
+    content: '✨';
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    animation: sparkleRotate 2s linear infinite reverse;
+}
+
+.game-subtitle {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    font-weight: 400;
+    text-shadow: 0 0 8px rgba(255, 192, 203, 0.6);
+    color: #fff;
+}
+
+@keyframes titleGlow {
+    0% { 
+        background-position: 0% 50%;
+        filter: brightness(1);
+    }
+    100% { 
+        background-position: 100% 50%;
+        filter: brightness(1.2);
+    }
+}
+
+@keyframes sparkleRotate {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+@keyframes clearFlash {
+    0% { 
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 107, 157, 0);
+    }
+    50% { 
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(255, 107, 157, 0.6);
+        border-color: #ff6b9d;
+    }
+    100% { 
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 107, 157, 0);
+    }
+}
+
+@keyframes modeSelectionMagic {
+    0% { 
+        transform: scale(1);
+        box-shadow: 0 10px 20px rgba(255, 192, 203, 0.2);
+    }
+    25% { 
+        transform: scale(1.1) rotate(2deg);
+        box-shadow: 0 0 30px rgba(255, 192, 203, 0.8);
+    }
+    50% { 
+        transform: scale(1.05) rotate(-1deg);
+        box-shadow: 0 0 40px rgba(255, 105, 180, 0.6);
+    }
+    75% { 
+        transform: scale(1.08) rotate(1deg);
+        box-shadow: 0 0 35px rgba(255, 192, 203, 0.7);
+    }
+    100% { 
+        transform: scale(1);
+        box-shadow: 0 10px 20px rgba(255, 192, 203, 0.2);
+    }
+}
+
+@keyframes magicParticleFly {
+    0% { 
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.2) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% { 
+        transform: translate(var(--target-x), var(--target-y)) scale(0) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* 页面转场特效 */
+@keyframes fadeInUp {
+    0% { 
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    100% { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeOutDown {
+    0% { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% { 
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+}
+
+@keyframes slideInFromRight {
+    0% { 
+        opacity: 0;
+        transform: translateX(100px) scale(0.9);
+    }
+    100% { 
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes slideOutToLeft {
+    0% { 
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+    100% { 
+        opacity: 0;
+        transform: translateX(-100px) scale(0.9);
+    }
+}
+
+@keyframes magicAppear {
+    0% { 
+        opacity: 0;
+        transform: scale(0.8) rotate(-10deg);
+        filter: blur(5px);
+    }
+    50% { 
+        opacity: 0.8;
+        transform: scale(1.05) rotate(2deg);
+        filter: blur(1px);
+    }
+    100% { 
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        filter: blur(0px);
+    }
+}
+
+@keyframes magicDisappear {
+    0% { 
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        filter: blur(0px);
+    }
+    50% { 
+        opacity: 0.3;
+        transform: scale(0.9) rotate(-5deg);
+        filter: blur(3px);
+    }
+    100% { 
+        opacity: 0;
+        transform: scale(0.7) rotate(-15deg);
+        filter: blur(8px);
+    }
+}
+
+/* 模式选择 */
+.mode-selection {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 
+        0 20px 40px rgba(255, 192, 203, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(15px);
+    text-align: center;
+    border: 2px solid rgba(255, 192, 203, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 模式选择页面的规则按钮区域 */
+.mode-selection-rules {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.mode-selection::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 192, 203, 0.1), transparent);
+    animation: shimmer 3s linear infinite;
+    pointer-events: none;
+}
+
+.mode-selection h2 {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: #d63384;
+    text-shadow: 0 2px 4px rgba(255, 192, 203, 0.3);
+    font-weight: 600;
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.mode-btn {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border: 3px solid transparent;
+    border-radius: 20px;
+    padding: 30px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    min-width: 220px;
+    box-shadow: 
+        0 10px 20px rgba(255, 192, 203, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.mode-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+}
+
+.mode-btn:hover::before {
+    left: 100%;
+}
+
+.mode-btn:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+        0 20px 40px rgba(255, 192, 203, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.mode-btn.easy-mode:hover {
+    border-color: #ff9a9e;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: white;
+}
+
+.mode-btn.hard-mode:hover {
+    border-color: #ff6b9d;
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff9a9e 100%);
+    color: white;
+}
+
+.mode-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 4px 8px rgba(255, 192, 203, 0.3));
+    transition: all 0.3s ease;
+}
+
+.mode-btn:hover .mode-icon {
+    transform: scale(1.1) rotate(5deg);
+    filter: drop-shadow(0 6px 12px rgba(255, 192, 203, 0.5));
+}
+
+.mode-btn h3 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.mode-btn:hover h3 {
+    color: white;
+}
+
+.mode-btn p {
+    color: #666;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.mode-btn:hover p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* 游戏容器 */
+.game-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 
+        0 20px 40px rgba(255, 192, 203, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 192, 203, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.game-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 192, 203, 0.05), transparent);
+    animation: shimmer 4s linear infinite;
+    pointer-events: none;
+}
+
+/* 游戏信息栏 */
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #555;
+}
+
+.info-value {
+    font-weight: 700;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.new-game-btn {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 154, 158, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.new-game-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.new-game-btn:hover::before {
+    left: 100%;
+}
+
+.new-game-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 154, 158, 0.5);
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff9a9e 100%);
+}
+
+/* 颜色参考 */
+.color-reference {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.color-reference h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.3rem;
+}
+
+.color-palette {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.color-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.color-block {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid rgba(255,255,255,0.8);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.color-block:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.color-number {
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+/* 游戏棋盘 */
+.game-board {
+    margin-bottom: 30px;
+}
+
+.guesses-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.guess-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.guess-row:hover {
+    background: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.guess-number {
+    font-weight: 600;
+    color: #666;
+    min-width: 60px;
+}
+
+.guess-colors {
+    display: flex;
+    gap: 8px;
+}
+
+.guess-color {
+    width: 35px;
+    height: 35px;
+    border-radius: 6px;
+    border: 2px solid rgba(255,255,255,0.8);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.feedback {
+    display: flex;
+    gap: 5px;
+    margin-left: auto;
+}
+
+.feedback-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.feedback-dot.correct {
+    background: #4CAF50;
+}
+
+.feedback-dot.wrong-position {
+    background: #FFC107;
+}
+
+.feedback-dot.wrong {
+    background: #9E9E9E;
+}
+
+/* 猜测输入区域 */
+.guess-section {
+    margin-bottom: 30px;
+}
+
+.guess-container {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.current-guess {
+    margin-bottom: 25px;
+}
+
+.current-guess h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.current-guess-colors {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.guess-slot {
+    width: 60px;
+    height: 60px;
+    border: 3px dashed #ccc;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    position: relative;
+}
+
+.guess-slot:hover {
+    border-color: #667eea;
+    transform: scale(1.05);
+}
+
+.guess-slot.selected {
+    border-style: solid;
+    border-color: #667eea;
+    background: #f0f4ff;
+}
+
+.guess-slot .slot-placeholder {
+    font-size: 1.5rem;
+    color: #999;
+    font-weight: bold;
+}
+
+.guess-slot .color-block {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    border: 2px solid rgba(255,255,255,0.8);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.color-selection {
+    margin-bottom: 25px;
+}
+
+.color-selection h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.color-selection-palette {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.color-selection-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.color-selection-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.color-selection-btn.selected {
+    border-color: #333;
+    transform: scale(1.05);
+}
+
+.color-selection-btn .color-number {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #333;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.guess-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.clear-btn {
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff9a9e 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.clear-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.clear-btn:hover::before {
+    left: 100%;
+}
+
+.clear-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 107, 157, 0.5);
+    background: linear-gradient(135deg, #ff4757 0%, #ff6b9d 100%);
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 154, 158, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.submit-btn:hover:not(:disabled)::before {
+    left: 100%;
+}
+
+.submit-btn:hover:not(:disabled) {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 154, 158, 0.5);
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff9a9e 100%);
+}
+
+.submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 游戏规则 */
+.game-rules {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.rules-toggle {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 154, 158, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.rules-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.rules-toggle:hover::before {
+    left: 100%;
+}
+
+.rules-toggle:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 154, 158, 0.5);
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff9a9e 100%);
+}
+
+/* 浮动规则窗口 */
+.floating-rules-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    max-width: 90vw;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 
+        0 20px 40px rgba(255, 192, 203, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 192, 203, 0.3);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* 浮动窗口动画类 */
+.slide-in-from-bottom-right {
+    animation: slideInFromBottomRight 0.6s ease-out forwards;
+}
+
+.slide-out-to-bottom-right {
+    animation: slideOutToBottomRight 0.6s ease-in forwards;
+}
+
+.floating-window-header {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 192, 203, 0.3);
+}
+
+.floating-window-header h3 {
+    margin: 0;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.close-rules-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-rules-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.floating-window-content {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.floating-window-content .rules-section {
+    margin-bottom: 20px;
+}
+
+.floating-window-content .rules-section h4 {
+    margin-bottom: 10px;
+    color: #d63384;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.floating-window-content .rules-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.floating-window-content .rules-section li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+    color: #555;
+    line-height: 1.5;
+}
+
+.floating-window-content .rules-section li::before {
+    content: "✨";
+    color: #ff9a9e;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* 关于信息窗口样式 */
+.floating-window-content .about-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(255, 154, 158, 0.1), rgba(168, 237, 234, 0.1));
+    border-radius: 12px;
+    border-left: 4px solid #ff9a9e;
+}
+
+.floating-window-content .about-section h4 {
+    margin-bottom: 12px;
+    color: #d63384;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.floating-window-content .about-section p {
+    margin-bottom: 10px;
+    color: #555;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.floating-window-content .about-section p strong {
+    color: #d63384;
+    font-weight: 600;
+}
+
+.floating-window-content .about-section ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.floating-window-content .about-section li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+    color: #555;
+    line-height: 1.5;
+}
+
+.floating-window-content .about-section li::before {
+    content: "🌟";
+    color: #ff9a9e;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+.floating-window-content .about-section li strong {
+    color: #d63384;
+    font-weight: 600;
+}
+
+/* 关于信息中的链接样式 */
+.floating-window-content .about-section a {
+    color: #ff6b9d;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(255, 154, 158, 0.1));
+    border: 1px solid rgba(255, 107, 157, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+}
+
+.floating-window-content .about-section a::before {
+    content: '🔗';
+    margin-right: 4px;
+    font-size: 0.9em;
+}
+
+.floating-window-content .about-section a:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #ff6b9d, #ff9a9e);
+    border-color: #ff6b9d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 107, 157, 0.3);
+}
+
+.floating-window-content .about-section a:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(255, 107, 157, 0.3);
+}
+
+/* GitHub链接特殊样式 */
+.floating-window-content .about-section a[href*="github.com"]::before {
+    content: '🐙';
+}
+
+/* 页面底部信息展示 */
+.page-footer {
+    background: transparent;
+    border: none;
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-top: 40px;
+}
+
+.page-footer p {
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+.page-footer a {
+    color: #ff6b9d;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.page-footer a:hover {
+    color: #d63384;
+    text-shadow: 0 1px 2px rgba(255, 192, 203, 0.3);
+}
+
+@keyframes slideInFromBottomRight {
+    0% { 
+        opacity: 0;
+        transform: translateX(100%) translateY(100%) scale(0.8);
+    }
+    60% { 
+        opacity: 0.8;
+        transform: translateX(-10px) translateY(-10px) scale(1.05);
+    }
+    100% { 
+        opacity: 1;
+        transform: translateX(0) translateY(0) scale(1);
+    }
+}
+
+@keyframes slideOutToBottomRight {
+    0% { 
+        opacity: 1;
+        transform: translateX(0) translateY(0) scale(1);
+    }
+    40% { 
+        opacity: 0.8;
+        transform: translateX(10px) translateY(10px) scale(0.95);
+    }
+    100% { 
+        opacity: 0;
+        transform: translateX(100%) translateY(100%) scale(0.8);
+    }
+}
+
+/* 模态框 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.modal-content h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.modal-content p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.correct-password {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.correct-password .color-block {
+    width: 50px;
+    height: 50px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.modal-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.modal-btn.primary {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 154, 158, 0.3);
+}
+
+.modal-btn.secondary {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    color: #666;
+    border: 2px solid rgba(255, 192, 203, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 192, 203, 0.2);
+}
+
+.modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .game-container {
+        padding: 20px;
+    }
+    
+    .guesses-container {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .game-title {
+        font-size: 2rem;
+    }
+    
+    .game-subtitle {
+        font-size: 1rem;
+    }
+    
+    .mode-selection {
+        padding: 25px;
+    }
+    
+    .mode-selection h2 {
+        font-size: 1.8rem;
+    }
+    
+    .mode-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .mode-btn {
+        min-width: 250px;
+        padding: 25px;
+    }
+    
+    .mode-selection-rules {
+        margin-top: 25px;
+        gap: 12px;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .game-container {
+        padding: 20px;
+    }
+    
+    .guesses-container {
+        max-height: 250px;
+        padding: 8px;
+    }
+    
+    .guess-container {
+        padding: 20px;
+    }
+    
+    .current-guess-colors {
+        gap: 10px;
+    }
+    
+    .guess-slot {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .guess-slot .color-block {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .color-selection-palette {
+        gap: 10px;
+    }
+    
+    .color-selection-btn {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .floating-rules-window {
+        width: 320px;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .modal-content {
+        padding: 30px;
+        margin: 20px;
+    }
+    
+    .modal-buttons {
+        flex-direction: column;
+    }
+    
+    .modal-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .game-title {
+        font-size: 1.8rem;
+    }
+    
+    .game-title::before,
+    .game-title::after {
+        display: none;
+    }
+    
+    .mode-selection {
+        padding: 20px;
+    }
+    
+    .mode-selection h2 {
+        font-size: 1.5rem;
+    }
+    
+    .mode-btn {
+        min-width: 220px;
+        padding: 20px;
+    }
+    
+    .mode-selection-rules {
+        margin-top: 20px;
+        gap: 10px;
+    }
+    
+    .mode-icon {
+        font-size: 3rem;
+    }
+    
+    .mode-btn h3 {
+        font-size: 1.4rem;
+    }
+    
+    .guesses-container {
+        max-height: 200px;
+    }
+    
+    .guess-row {
+        padding: 12px;
+        gap: 10px;
+    }
+    
+    .guess-number {
+        min-width: 50px;
+        font-size: 0.9rem;
+    }
+    
+    .guess-color {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .feedback-dot {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .current-guess-colors {
+        gap: 8px;
+    }
+    
+    .guess-slot {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .guess-slot .color-block {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .color-selection-palette {
+        gap: 8px;
+    }
+    
+    .color-selection-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .action-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 100px;
+    }
+    
+    .floating-rules-window {
+        width: calc(100vw - 20px);
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 8px;
+    }
+    
+    .game-title {
+        font-size: 1.5rem;
+    }
+    
+    .game-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .mode-selection {
+        padding: 15px;
+    }
+    
+    .mode-selection h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+    
+    .mode-btn {
+        padding: 15px;
+        min-width: 200px;
+    }
+    
+    .mode-selection-rules {
+        margin-top: 15px;
+        gap: 8px;
+    }
+    
+    .mode-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .mode-btn h3 {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+    
+    .mode-btn p {
+        font-size: 0.9rem;
+    }
+    
+    .game-container {
+        padding: 15px;
+    }
+    
+    .game-info {
+        padding: 12px;
+    }
+    
+    .info-item {
+        gap: 8px;
+    }
+    
+    .info-label {
+        font-size: 0.9rem;
+    }
+    
+    .info-value {
+        font-size: 1rem;
+    }
+    
+    .new-game-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .color-reference h3 {
+        font-size: 1.1rem;
+    }
+    
+    .color-palette {
+        gap: 8px;
+    }
+    
+    .color-block {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .color-number {
+        font-size: 0.8rem;
+    }
+    
+    .guesses-container {
+        max-height: 180px;
+        padding: 5px;
+    }
+    
+    .guess-row {
+        padding: 10px;
+        gap: 8px;
+    }
+    
+    .guess-number {
+        min-width: 40px;
+        font-size: 0.8rem;
+    }
+    
+    .guess-colors {
+        gap: 4px;
+    }
+    
+    .guess-color {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .feedback {
+        gap: 3px;
+    }
+    
+    .feedback-dot {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .guess-container {
+        padding: 15px;
+    }
+    
+    .current-guess h3,
+    .color-selection h3 {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+    
+    .current-guess-colors {
+        gap: 6px;
+        margin-bottom: 15px;
+    }
+    
+    .guess-slot {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .guess-slot .color-block {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .guess-slot .slot-placeholder {
+        font-size: 1.2rem;
+    }
+    
+    .color-selection-palette {
+        gap: 6px;
+    }
+    
+    .color-selection-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .color-selection-btn .color-number {
+        width: 16px;
+        height: 16px;
+        font-size: 0.7rem;
+        top: -6px;
+        right: -6px;
+    }
+    
+    .guess-actions {
+        gap: 10px;
+    }
+    
+    .action-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+        min-width: 90px;
+    }
+    
+    .rules-toggle {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .floating-rules-window {
+        width: calc(100vw - 16px);
+        bottom: 8px;
+        right: 8px;
+        left: 8px;
+    }
+    
+    .floating-window-header {
+        padding: 12px 15px;
+    }
+    
+    .floating-window-header h3 {
+        font-size: 1rem;
+    }
+    
+    .floating-window-content {
+        padding: 15px;
+        max-height: 50vh;
+    }
+    
+    .floating-window-content .about-section a {
+        padding: 1px 4px;
+        font-size: 0.9rem;
+    }
+    
+    /* 页面底部信息移动端样式 */
+    .page-footer {
+        padding: 15px;
+        font-size: 0.85rem;
+        margin-top: 30px;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        margin: 15px;
+    }
+    
+    .modal-icon {
+        font-size: 3rem;
+    }
+    
+    .modal-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .modal-content p {
+        font-size: 1rem;
+    }
+    
+    .correct-password .color-block {
+        width: 40px;
+        height: 40px;
+    }
+    
+    /* 页面底部信息小屏幕样式 */
+    .page-footer {
+        padding: 12px;
+        font-size: 0.8rem;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 360px) {
+    .game-title {
+        font-size: 1.3rem;
+    }
+    
+    .mode-selection h2 {
+        font-size: 1.2rem;
+    }
+    
+    .mode-btn {
+        min-width: 180px;
+        padding: 12px;
+    }
+    
+    .mode-selection-rules {
+        margin-top: 12px;
+        gap: 6px;
+    }
+    
+    .mode-icon {
+        font-size: 2rem;
+    }
+    
+    .mode-btn h3 {
+        font-size: 1.1rem;
+    }
+    
+    .mode-btn p {
+        font-size: 0.8rem;
+    }
+    
+    .guesses-container {
+        max-height: 150px;
+    }
+    
+    .guess-slot {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .guess-slot .color-block {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .color-selection-btn {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .color-selection-btn .color-number {
+        width: 14px;
+        height: 14px;
+        font-size: 0.6rem;
+        top: -5px;
+        right: -5px;
+    }
+    
+    .action-btn {
+        padding: 6px 12px;
+        font-size: 0.7rem;
+        min-width: 80px;
+    }
+    
+    /* 页面底部信息超小屏幕样式 */
+    .page-footer {
+        padding: 10px;
+        font-size: 0.75rem;
+        margin-top: 15px;
+    }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.guess-row {
+    animation: fadeIn 0.5s ease;
+}
+
+/* 滚动条样式 */
+.guesses-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.guesses-container::-webkit-scrollbar-track {
+    background: rgba(255, 192, 203, 0.1);
+    border-radius: 3px;
+}
+
+.guesses-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #ff9a9e, #fecfef);
+    border-radius: 3px;
+    transition: background 0.3s ease;
+}
+
+.guesses-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #ff6b9d, #ff9a9e);
+}
+
+/* 移动设备滚动优化 */
+@media (max-width: 768px) {
+    .guesses-container::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    .guesses-container {
+        scrollbar-width: thin;
+        scrollbar-color: #ff9a9e rgba(255, 192, 203, 0.1);
+    }
+}
+
+/* 确保内容不会被截断 */
+.guesses-container {
+    min-height: 100px;
+}
+
+/* 添加滚动提示 */
+.guesses-container::after {
+    content: '';
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.8));
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.guesses-container.scrollable::after {
+    opacity: 1;
+}
