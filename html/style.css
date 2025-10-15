@@ -2082,6 +2082,138 @@ body::before {
     min-height: 100px;
 }
 
+/* 礼花/烟花特效样式 */
+.fireworks-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.firework {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    animation: fireworkExplode 3s ease-out forwards;
+}
+
+.firework-particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: fireworkParticle 2.5s ease-out forwards;
+}
+
+/* 礼花爆炸动画 */
+@keyframes fireworkExplode {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    10% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+/* 礼花粒子动画 */
+@keyframes fireworkParticle {
+    0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0) translate(var(--dx), var(--dy));
+        opacity: 0;
+    }
+}
+
+/* 礼花颜色变体 */
+.firework-color-1 {
+    background: #ff6b9d;
+    box-shadow: 0 0 30px #ff6b9d, 0 0 60px #ff6b9d, 0 0 90px #ff6b9d;
+}
+
+.firework-color-2 {
+    background: #ff9a9e;
+    box-shadow: 0 0 30px #ff9a9e, 0 0 60px #ff9a9e, 0 0 90px #ff9a9e;
+}
+
+.firework-color-3 {
+    background: #fecfef;
+    box-shadow: 0 0 30px #fecfef, 0 0 60px #fecfef, 0 0 90px #fecfef;
+}
+
+.firework-color-4 {
+    background: #a8edea;
+    box-shadow: 0 0 30px #a8edea, 0 0 60px #a8edea, 0 0 90px #a8edea;
+}
+
+.firework-color-5 {
+    background: #fed6e3;
+    box-shadow: 0 0 30px #fed6e3, 0 0 60px #fed6e3, 0 0 90px #fed6e3;
+}
+
+.firework-color-6 {
+    background: #ffecd2;
+    box-shadow: 0 0 30px #ffecd2, 0 0 60px #ffecd2, 0 0 90px #ffecd2;
+}
+
+.firework-color-7 {
+    background: #fcb69f;
+    box-shadow: 0 0 30px #fcb69f, 0 0 60px #fcb69f, 0 0 90px #fcb69f;
+}
+
+.firework-color-8 {
+    background: #d299c2;
+    box-shadow: 0 0 30px #d299c2, 0 0 60px #d299c2, 0 0 90px #d299c2;
+}
+
+.firework-color-9 {
+    background: #89f7fe;
+    box-shadow: 0 0 30px #89f7fe, 0 0 60px #89f7fe, 0 0 90px #89f7fe;
+}
+
+.firework-color-10 {
+    background: #ffd700;
+    box-shadow: 0 0 30px #ffd700, 0 0 60px #ffd700, 0 0 90px #ffd700;
+}
+
+/* 响应式礼花特效 */
+@media (max-width: 768px) {
+    .firework {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .firework-particle {
+        width: 6px;
+        height: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .firework {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .firework-particle {
+        width: 5px;
+        height: 5px;
+    }
+}
+
 /* 添加滚动提示 */
 .guesses-container::after {
     content: '';

@@ -341,7 +341,12 @@ class PasswordPuzzleGame {
         if (this.arraysEqual(this.currentGuess, this.password)) {
             this.gameWon = true;
             this.gameOver = true;
-            this.showGameOverModal(true);
+            // 触发礼花特效
+            this.createFireworksEffect();
+            // 延迟显示模态框，让礼花特效先开始
+            setTimeout(() => {
+                this.showGameOverModal(true);
+            }, 500);
         } else if (this.currentAttempts >= this.maxAttempts) {
             this.gameOver = true;
             this.showGameOverModal(false);
@@ -1141,6 +1146,114 @@ class PasswordPuzzleGame {
             if (a[i] !== b[i]) return false;
         }
         return true;
+    }
+    
+    // 创建礼花/烟花特效
+    createFireworksEffect() {
+        // 创建礼花容器
+        const fireworksContainer = document.createElement('div');
+        fireworksContainer.className = 'fireworks-container';
+        document.body.appendChild(fireworksContainer);
+        
+        // 礼花颜色数组
+        const fireworkColors = [
+            'firework-color-1', 'firework-color-2', 'firework-color-3',
+            'firework-color-4', 'firework-color-5', 'firework-color-6',
+            'firework-color-7', 'firework-color-8', 'firework-color-9',
+            'firework-color-10'
+        ];
+        
+        // 获取屏幕尺寸
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        
+        // 根据屏幕尺寸调整礼花数量和参数
+        let fireworkCount, explosionRadius, particleCount;
+        
+        if (screenWidth <= 480) {
+            // 小屏幕设备
+            fireworkCount = Math.min(8, Math.floor(screenWidth / 80));
+            explosionRadius = 120;
+            particleCount = 16;
+        } else if (screenWidth <= 768) {
+            // 中等屏幕设备
+            fireworkCount = Math.min(12, Math.floor(screenWidth / 90));
+            explosionRadius = 150;
+            particleCount = 20;
+        } else {
+            // 大屏幕设备
+            fireworkCount = Math.min(15, Math.floor(screenWidth / 100));
+            explosionRadius = 180;
+            particleCount = 24;
+        }
+        
+        for (let i = 0; i < fireworkCount; i++) {
+            // 随机延迟触发
+            setTimeout(() => {
+                this.createSingleFirework(fireworksContainer, fireworkColors, screenWidth, screenHeight, explosionRadius, particleCount);
+            }, i * 200 + Math.random() * 500);
+        }
+        
+        // 清理礼花容器
+        setTimeout(() => {
+            if (document.body.contains(fireworksContainer)) {
+                document.body.removeChild(fireworksContainer);
+            }
+        }, 8000);
+    }
+    
+    // 创建单个礼花爆炸
+    createSingleFirework(container, colors, screenWidth, screenHeight, explosionRadius, particleCount) {
+        // 随机位置，确保礼花不会超出屏幕边界
+        const margin = Math.max(50, explosionRadius);
+        const x = Math.random() * (screenWidth - margin * 2) + margin;
+        const y = Math.random() * (screenHeight - margin * 2) + margin;
+        
+        // 创建主礼花
+        const mainFirework = document.createElement('div');
+        mainFirework.className = 'firework';
+        mainFirework.style.left = x + 'px';
+        mainFirework.style.top = y + 'px';
+        mainFirework.classList.add(colors[Math.floor(Math.random() * colors.length)]);
+        
+        container.appendChild(mainFirework);
+        
+        // 创建爆炸粒子，使用传入的参数
+        const actualParticleCount = particleCount + Math.floor(Math.random() * 8); // 增加更多随机性
+        const actualExplosionRadius = explosionRadius + Math.random() * 60; // 大幅增加爆炸半径的随机性
+        
+        for (let i = 0; i < actualParticleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'firework-particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            
+            // 随机方向
+            const angle = (i / actualParticleCount) * Math.PI * 2 + Math.random() * 0.5;
+            const distance = actualExplosionRadius + Math.random() * 80; // 大幅增加扩散距离
+            const dx = Math.cos(angle) * distance;
+            const dy = Math.sin(angle) * distance;
+            
+            particle.style.setProperty('--dx', dx + 'px');
+            particle.style.setProperty('--dy', dy + 'px');
+            particle.classList.add(colors[Math.floor(Math.random() * colors.length)]);
+            
+            container.appendChild(particle);
+        }
+        
+        // 清理粒子
+        setTimeout(() => {
+            if (container.contains(mainFirework)) {
+                container.removeChild(mainFirework);
+            }
+            
+            const particles = container.querySelectorAll('.firework-particle');
+            particles.forEach(particle => {
+                if (container.contains(particle)) {
+                    container.removeChild(particle);
+                }
+            });
+        }, 3000);
     }
 }
 
