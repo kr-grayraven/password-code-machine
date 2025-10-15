@@ -357,6 +357,12 @@ class PasswordPuzzleGame {
     
     // 清空当前猜测
     clearCurrentGuess() {
+        // 检查游戏是否已结束
+        if (this.gameOver) {
+            this.showMessage('游戏结束', 'info');
+            return;
+        }
+        
         // 检查是否有颜色需要清空
         const hasColors = this.currentGuess.some(color => color !== null);
         
