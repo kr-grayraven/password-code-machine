@@ -341,6 +341,15 @@ body::before {
     overflow: hidden;
 }
 
+/* 模式选择页面的规则按钮区域 */
+.mode-selection-rules {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 .mode-selection::before {
     content: '';
     position: absolute;
@@ -1292,6 +1301,11 @@ body::before {
         padding: 25px;
     }
     
+    .mode-selection-rules {
+        margin-top: 25px;
+        gap: 12px;
+    }
+    
     .game-info {
         flex-direction: column;
         text-align: center;
@@ -1376,6 +1390,11 @@ body::before {
     .mode-btn {
         min-width: 220px;
         padding: 20px;
+    }
+    
+    .mode-selection-rules {
+        margin-top: 20px;
+        gap: 10px;
     }
     
     .mode-icon {
@@ -1472,6 +1491,11 @@ body::before {
     .mode-btn {
         padding: 15px;
         min-width: 200px;
+    }
+    
+    .mode-selection-rules {
+        margin-top: 15px;
+        gap: 8px;
     }
     
     .mode-icon {
@@ -1684,6 +1708,11 @@ body::before {
     .mode-btn {
         min-width: 180px;
         padding: 12px;
+    }
+    
+    .mode-selection-rules {
+        margin-top: 12px;
+        gap: 6px;
     }
     
     .mode-icon {

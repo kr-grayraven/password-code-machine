@@ -66,6 +66,16 @@ class PasswordPuzzleGame {
             this.toggleFloatingAbout();
         });
         
+        // 模式选择页面的规则切换
+        document.getElementById('mode-rules-toggle').addEventListener('click', () => {
+            this.toggleFloatingRules();
+        });
+        
+        // 模式选择页面的关于信息切换
+        document.getElementById('mode-about-toggle').addEventListener('click', () => {
+            this.toggleFloatingAbout();
+        });
+        
         // 关闭浮动关于信息窗口
         document.getElementById('close-about-btn').addEventListener('click', () => {
             this.hideFloatingAbout();
@@ -657,12 +667,14 @@ class PasswordPuzzleGame {
     showFloatingRules() {
         const floatingWindow = document.getElementById('floating-rules-window');
         const rulesToggle = document.getElementById('rules-toggle');
+        const modeRulesToggle = document.getElementById('mode-rules-toggle');
         
         floatingWindow.classList.remove('hidden');
         floatingWindow.classList.add('slide-in-from-bottom-right');
         
         // 更新按钮文本
-        rulesToggle.textContent = '📜 关闭规则';
+        if (rulesToggle) rulesToggle.textContent = '📜 关闭规则';
+        if (modeRulesToggle) modeRulesToggle.textContent = '📜 关闭规则';
         
         // 清理动画类
         setTimeout(() => {
@@ -674,11 +686,13 @@ class PasswordPuzzleGame {
     hideFloatingRules() {
         const floatingWindow = document.getElementById('floating-rules-window');
         const rulesToggle = document.getElementById('rules-toggle');
+        const modeRulesToggle = document.getElementById('mode-rules-toggle');
         
         floatingWindow.classList.add('slide-out-to-bottom-right');
         
         // 更新按钮文本
-        rulesToggle.textContent = '📜 魔法规则';
+        if (rulesToggle) rulesToggle.textContent = '📜 魔法规则';
+        if (modeRulesToggle) modeRulesToggle.textContent = '📜 魔法规则';
         
         setTimeout(() => {
             floatingWindow.classList.add('hidden');
@@ -702,12 +716,14 @@ class PasswordPuzzleGame {
     showFloatingAbout() {
         const floatingWindow = document.getElementById('floating-about-window');
         const aboutToggle = document.getElementById('about-toggle');
+        const modeAboutToggle = document.getElementById('mode-about-toggle');
         
         floatingWindow.classList.remove('hidden');
         floatingWindow.classList.add('slide-in-from-bottom-right');
         
         // 更新按钮文本
-        aboutToggle.textContent = 'ℹ️ 关闭关于';
+        if (aboutToggle) aboutToggle.textContent = 'ℹ️ 关闭关于';
+        if (modeAboutToggle) modeAboutToggle.textContent = 'ℹ️ 关闭关于';
         
         // 清理动画类
         setTimeout(() => {
@@ -719,11 +735,13 @@ class PasswordPuzzleGame {
     hideFloatingAbout() {
         const floatingWindow = document.getElementById('floating-about-window');
         const aboutToggle = document.getElementById('about-toggle');
+        const modeAboutToggle = document.getElementById('mode-about-toggle');
         
         floatingWindow.classList.add('slide-out-to-bottom-right');
         
         // 更新按钮文本
-        aboutToggle.textContent = 'ℹ️ 关于信息';
+        if (aboutToggle) aboutToggle.textContent = 'ℹ️ 关于信息';
+        if (modeAboutToggle) modeAboutToggle.textContent = 'ℹ️ 关于信息';
         
         setTimeout(() => {
             floatingWindow.classList.add('hidden');
