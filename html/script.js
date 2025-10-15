@@ -480,13 +480,122 @@ class PasswordPuzzleGame {
             
             colorBtn.appendChild(colorNumber);
             
-            // 添加点击事件
-            colorBtn.addEventListener('click', () => {
-                this.selectColor(i);
-            });
+            // 添加优化的事件处理
+            this.addOptimizedColorButtonEvents(colorBtn, i);
             
             palette.appendChild(colorBtn);
         }
+    }
+    
+    // 为颜色按钮添加优化的事件处理
+    addOptimizedColorButtonEvents(colorBtn, colorIndex) {
+        let isProcessing = false;
+        let touchStartTime = 0;
+        let touchStartPos = { x: 0, y: 0 };
+        
+        // 防止文本选择
+        colorBtn.addEventListener('selectstart', (e) => {
+            e.preventDefault();
+        });
+        
+        // 防止拖拽
+        colorBtn.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+        
+        // 鼠标点击事件
+        colorBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (isProcessing) return;
+            
+            this.handleColorSelection(colorBtn, colorIndex);
+        });
+        
+        // 触摸开始事件
+        colorBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            touchStartTime = Date.now();
+            const touch = e.touches[0];
+            touchStartPos = { x: touch.clientX, y: touch.clientY };
+            
+            // 添加触摸反馈
+            colorBtn.classList.add('clicked');
+        }, { passive: false });
+        
+        // 触摸结束事件
+        colorBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (isProcessing) return;
+            
+            const touchEndTime = Date.now();
+            const touchDuration = touchEndTime - touchStartTime;
+            
+            // 移除触摸反馈
+            colorBtn.classList.remove('clicked');
+            
+            // 检查是否为有效的点击（时间短且移动距离小）
+            if (touchDuration < 500) {
+                const touch = e.changedTouches[0];
+                const touchEndPos = { x: touch.clientX, y: touch.clientY };
+                const distance = Math.sqrt(
+                    Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
+                    Math.pow(touchEndPos.y - touchStartPos.y, 2)
+                );
+                
+                if (distance < 50) { // 50px内的移动认为是点击
+                    this.handleColorSelection(colorBtn, colorIndex);
+                }
+            }
+        }, { passive: false });
+        
+        // 触摸移动事件 - 防止滚动
+        colorBtn.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+        
+        // 鼠标按下事件 - 提供即时反馈
+        colorBtn.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            colorBtn.classList.add('clicked');
+        });
+        
+        // 鼠标抬起事件
+        colorBtn.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            colorBtn.classList.remove('clicked');
+        });
+        
+        // 鼠标离开事件 - 清理状态
+        colorBtn.addEventListener('mouseleave', (e) => {
+            colorBtn.classList.remove('clicked');
+        });
+    }
+    
+    // 处理颜色选择
+    handleColorSelection(colorBtn, colorIndex) {
+        if (this.gameOver) return;
+        
+        // 防止重复处理
+        const isProcessing = colorBtn.dataset.processing === 'true';
+        if (isProcessing) return;
+        
+        colorBtn.dataset.processing = 'true';
+        
+        // 添加点击波纹效果
+        colorBtn.classList.add('clicked');
+        
+        // 延迟移除波纹效果
+        setTimeout(() => {
+            colorBtn.classList.remove('clicked');
+            colorBtn.dataset.processing = 'false';
+        }, 300);
+        
+        // 选择颜色
+        this.selectColor(colorIndex);
     }
     
     // 渲染当前猜测
@@ -527,11 +636,120 @@ class PasswordPuzzleGame {
                 slot.classList.add('selected');
             }
             
-            // 添加点击事件来选择位置
-            slot.addEventListener('click', () => {
-                this.selectSlot(index);
-            });
+            // 添加优化的事件处理来选择位置
+            this.addOptimizedSlotEvents(slot, index);
         });
+    }
+    
+    // 为猜测槽位添加优化的事件处理
+    addOptimizedSlotEvents(slot, slotIndex) {
+        let isProcessing = false;
+        let touchStartTime = 0;
+        let touchStartPos = { x: 0, y: 0 };
+        
+        // 防止文本选择
+        slot.addEventListener('selectstart', (e) => {
+            e.preventDefault();
+        });
+        
+        // 防止拖拽
+        slot.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+        
+        // 鼠标点击事件
+        slot.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (isProcessing) return;
+            
+            this.handleSlotSelection(slot, slotIndex);
+        });
+        
+        // 触摸开始事件
+        slot.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            touchStartTime = Date.now();
+            const touch = e.touches[0];
+            touchStartPos = { x: touch.clientX, y: touch.clientY };
+            
+            // 添加触摸反馈
+            slot.classList.add('clicked');
+        }, { passive: false });
+        
+        // 触摸结束事件
+        slot.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (isProcessing) return;
+            
+            const touchEndTime = Date.now();
+            const touchDuration = touchEndTime - touchStartTime;
+            
+            // 移除触摸反馈
+            slot.classList.remove('clicked');
+            
+            // 检查是否为有效的点击
+            if (touchDuration < 500) {
+                const touch = e.changedTouches[0];
+                const touchEndPos = { x: touch.clientX, y: touch.clientY };
+                const distance = Math.sqrt(
+                    Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
+                    Math.pow(touchEndPos.y - touchStartPos.y, 2)
+                );
+                
+                if (distance < 50) {
+                    this.handleSlotSelection(slot, slotIndex);
+                }
+            }
+        }, { passive: false });
+        
+        // 触摸移动事件
+        slot.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+        
+        // 鼠标按下事件
+        slot.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            slot.classList.add('clicked');
+        });
+        
+        // 鼠标抬起事件
+        slot.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            slot.classList.remove('clicked');
+        });
+        
+        // 鼠标离开事件
+        slot.addEventListener('mouseleave', (e) => {
+            slot.classList.remove('clicked');
+        });
+    }
+    
+    // 处理槽位选择
+    handleSlotSelection(slot, slotIndex) {
+        if (this.gameOver) return;
+        
+        // 防止重复处理
+        const isProcessing = slot.dataset.processing === 'true';
+        if (isProcessing) return;
+        
+        slot.dataset.processing = 'true';
+        
+        // 添加点击波纹效果
+        slot.classList.add('clicked');
+        
+        // 延迟移除波纹效果
+        setTimeout(() => {
+            slot.classList.remove('clicked');
+            slot.dataset.processing = 'false';
+        }, 300);
+        
+        // 选择槽位
+        this.selectSlot(slotIndex);
     }
     
     // 更新提交按钮状态
