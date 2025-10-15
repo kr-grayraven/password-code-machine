@@ -1126,8 +1126,8 @@ body::before {
 
 /* 页面底部信息展示 */
 .page-footer {
-    background: linear-gradient(135deg, rgba(255, 154, 158, 0.1), rgba(168, 237, 234, 0.1));
-    border-top: 1px solid rgba(255, 192, 203, 0.2);
+    background: transparent;
+    border: none;
     padding: 20px;
     text-align: center;
     color: #666;
