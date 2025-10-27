@@ -310,7 +310,11 @@ class PasswordPuzzleGame {
     
     // 提交猜测
     submitGuess() {
-        if (this.gameOver) return;
+        // 检查游戏是否已结束
+        if (this.gameOver) {
+            this.showMessage('游戏结束，重玩请点击新游戏', 'info');
+            return;
+        }
         
         // 检查当前猜测是否完整
         if (this.currentGuess.some(color => color === null)) {
@@ -341,7 +345,12 @@ class PasswordPuzzleGame {
         if (this.arraysEqual(this.currentGuess, this.password)) {
             this.gameWon = true;
             this.gameOver = true;
-            this.showGameOverModal(true);
+            // 触发礼花特效
+            this.createFireworksEffect();
+            // 延迟显示模态框，让礼花特效先开始
+            setTimeout(() => {
+                this.showGameOverModal(true);
+            }, 500);
         } else if (this.currentAttempts >= this.maxAttempts) {
             this.gameOver = true;
             this.showGameOverModal(false);
@@ -357,6 +366,12 @@ class PasswordPuzzleGame {
     
     // 清空当前猜测
     clearCurrentGuess() {
+        // 检查游戏是否已结束
+        if (this.gameOver) {
+            this.showMessage('游戏结束，重玩请点击新游戏', 'info');
+            return;
+        }
+        
         // 检查是否有颜色需要清空
         const hasColors = this.currentGuess.some(color => color !== null);
         
@@ -382,6 +397,9 @@ class PasswordPuzzleGame {
         
         slots.forEach((slot, index) => {
             if (this.currentGuess[index] !== null) {
+                // 播放颜色飞出动画
+                this.playColorFlyOutAnimation(slot, index);
+                
                 // 添加闪烁效果
                 slot.style.animation = 'clearFlash 0.6s ease-in-out';
                 
@@ -393,10 +411,42 @@ class PasswordPuzzleGame {
         });
     }
     
+    // 播放颜色飞出动画
+    playColorFlyOutAnimation(slot, slotIndex) {
+        const colorBlock = slot.querySelector('.color-block');
+        if (!colorBlock) return;
+        
+        const colorRect = colorBlock.getBoundingClientRect();
+        
+        // 创建飞出动画元素
+        const flyingOutColor = document.createElement('div');
+        flyingOutColor.className = 'color-flying-out';
+        flyingOutColor.style.cssText = `
+            left: ${colorRect.left}px;
+            top: ${colorRect.top}px;
+            width: ${colorRect.width}px;
+            height: ${colorRect.height}px;
+            background-color: ${colorBlock.style.backgroundColor};
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        `;
+        
+        document.body.appendChild(flyingOutColor);
+        
+        // 清理动画元素
+        setTimeout(() => {
+            if (document.body.contains(flyingOutColor)) {
+                document.body.removeChild(flyingOutColor);
+            }
+        }, 400);
+    }
+    
     // 选择颜色
     selectColor(colorIndex) {
         if (this.gameOver) return;
         
+        // 更新游戏状态
         this.currentGuess[this.selectedSlot] = colorIndex;
         
         // 自动移动到下一个空位置
@@ -407,8 +457,18 @@ class PasswordPuzzleGame {
             }
         }
         
+        // 渲染当前猜测并添加出现动画
         this.renderCurrentGuess();
         this.updateSubmitButton();
+        
+        // 为颜色选择按钮添加脉冲效果
+        const colorBtn = document.querySelector(`[data-color-index="${colorIndex}"]`);
+        if (colorBtn) {
+            colorBtn.classList.add('color-selection-pulse');
+            setTimeout(() => {
+                colorBtn.classList.remove('color-selection-pulse');
+            }, 400);
+        }
     }
     
     // 选择位置
@@ -435,13 +495,122 @@ class PasswordPuzzleGame {
             
             colorBtn.appendChild(colorNumber);
             
-            // 添加点击事件
-            colorBtn.addEventListener('click', () => {
-                this.selectColor(i);
-            });
+            // 添加优化的事件处理
+            this.addOptimizedColorButtonEvents(colorBtn, i);
             
             palette.appendChild(colorBtn);
         }
+    }
+    
+    // 为颜色按钮添加优化的事件处理
+    addOptimizedColorButtonEvents(colorBtn, colorIndex) {
+        let isProcessing = false;
+        let touchStartTime = 0;
+        let touchStartPos = { x: 0, y: 0 };
+        
+        // 防止文本选择
+        colorBtn.addEventListener('selectstart', (e) => {
+            e.preventDefault();
+        });
+        
+        // 防止拖拽
+        colorBtn.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+        
+        // 鼠标点击事件
+        colorBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (isProcessing) return;
+            
+            this.handleColorSelection(colorBtn, colorIndex);
+        });
+        
+        // 触摸开始事件
+        colorBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            touchStartTime = Date.now();
+            const touch = e.touches[0];
+            touchStartPos = { x: touch.clientX, y: touch.clientY };
+            
+            // 添加触摸反馈
+            colorBtn.classList.add('clicked');
+        }, { passive: false });
+        
+        // 触摸结束事件
+        colorBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (isProcessing) return;
+            
+            const touchEndTime = Date.now();
+            const touchDuration = touchEndTime - touchStartTime;
+            
+            // 移除触摸反馈
+            colorBtn.classList.remove('clicked');
+            
+            // 检查是否为有效的点击（时间短且移动距离小）
+            if (touchDuration < 500) {
+                const touch = e.changedTouches[0];
+                const touchEndPos = { x: touch.clientX, y: touch.clientY };
+                const distance = Math.sqrt(
+                    Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
+                    Math.pow(touchEndPos.y - touchStartPos.y, 2)
+                );
+                
+                if (distance < 50) { // 50px内的移动认为是点击
+                    this.handleColorSelection(colorBtn, colorIndex);
+                }
+            }
+        }, { passive: false });
+        
+        // 触摸移动事件 - 防止滚动
+        colorBtn.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+        
+        // 鼠标按下事件 - 提供即时反馈
+        colorBtn.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            colorBtn.classList.add('clicked');
+        });
+        
+        // 鼠标抬起事件
+        colorBtn.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            colorBtn.classList.remove('clicked');
+        });
+        
+        // 鼠标离开事件 - 清理状态
+        colorBtn.addEventListener('mouseleave', (e) => {
+            colorBtn.classList.remove('clicked');
+        });
+    }
+    
+    // 处理颜色选择
+    handleColorSelection(colorBtn, colorIndex) {
+        if (this.gameOver) return;
+        
+        // 防止重复处理
+        const isProcessing = colorBtn.dataset.processing === 'true';
+        if (isProcessing) return;
+        
+        colorBtn.dataset.processing = 'true';
+        
+        // 添加点击波纹效果
+        colorBtn.classList.add('clicked');
+        
+        // 延迟移除波纹效果
+        setTimeout(() => {
+            colorBtn.classList.remove('clicked');
+            colorBtn.dataset.processing = 'false';
+        }, 300);
+        
+        // 选择颜色
+        this.selectColor(colorIndex);
     }
     
     // 渲染当前猜测
@@ -462,6 +631,11 @@ class PasswordPuzzleGame {
                     const newColorBlock = document.createElement('div');
                     newColorBlock.className = 'color-block';
                     slot.appendChild(newColorBlock);
+                    // 为新创建的颜色块添加出现动画
+                    newColorBlock.classList.add('color-appearing');
+                    setTimeout(() => {
+                        newColorBlock.classList.remove('color-appearing');
+                    }, 400);
                 }
                 slot.querySelector('.color-block').style.backgroundColor = this.colors[this.currentGuess[index]].hex;
             } else {
@@ -477,11 +651,120 @@ class PasswordPuzzleGame {
                 slot.classList.add('selected');
             }
             
-            // 添加点击事件来选择位置
-            slot.addEventListener('click', () => {
-                this.selectSlot(index);
-            });
+            // 添加优化的事件处理来选择位置
+            this.addOptimizedSlotEvents(slot, index);
         });
+    }
+    
+    // 为猜测槽位添加优化的事件处理
+    addOptimizedSlotEvents(slot, slotIndex) {
+        let isProcessing = false;
+        let touchStartTime = 0;
+        let touchStartPos = { x: 0, y: 0 };
+        
+        // 防止文本选择
+        slot.addEventListener('selectstart', (e) => {
+            e.preventDefault();
+        });
+        
+        // 防止拖拽
+        slot.addEventListener('dragstart', (e) => {
+            e.preventDefault();
+        });
+        
+        // 鼠标点击事件
+        slot.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (isProcessing) return;
+            
+            this.handleSlotSelection(slot, slotIndex);
+        });
+        
+        // 触摸开始事件
+        slot.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            touchStartTime = Date.now();
+            const touch = e.touches[0];
+            touchStartPos = { x: touch.clientX, y: touch.clientY };
+            
+            // 添加触摸反馈
+            slot.classList.add('clicked');
+        }, { passive: false });
+        
+        // 触摸结束事件
+        slot.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (isProcessing) return;
+            
+            const touchEndTime = Date.now();
+            const touchDuration = touchEndTime - touchStartTime;
+            
+            // 移除触摸反馈
+            slot.classList.remove('clicked');
+            
+            // 检查是否为有效的点击
+            if (touchDuration < 500) {
+                const touch = e.changedTouches[0];
+                const touchEndPos = { x: touch.clientX, y: touch.clientY };
+                const distance = Math.sqrt(
+                    Math.pow(touchEndPos.x - touchStartPos.x, 2) + 
+                    Math.pow(touchEndPos.y - touchStartPos.y, 2)
+                );
+                
+                if (distance < 50) {
+                    this.handleSlotSelection(slot, slotIndex);
+                }
+            }
+        }, { passive: false });
+        
+        // 触摸移动事件
+        slot.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+        
+        // 鼠标按下事件
+        slot.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            slot.classList.add('clicked');
+        });
+        
+        // 鼠标抬起事件
+        slot.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            slot.classList.remove('clicked');
+        });
+        
+        // 鼠标离开事件
+        slot.addEventListener('mouseleave', (e) => {
+            slot.classList.remove('clicked');
+        });
+    }
+    
+    // 处理槽位选择
+    handleSlotSelection(slot, slotIndex) {
+        if (this.gameOver) return;
+        
+        // 防止重复处理
+        const isProcessing = slot.dataset.processing === 'true';
+        if (isProcessing) return;
+        
+        slot.dataset.processing = 'true';
+        
+        // 添加点击波纹效果
+        slot.classList.add('clicked');
+        
+        // 延迟移除波纹效果
+        setTimeout(() => {
+            slot.classList.remove('clicked');
+            slot.dataset.processing = 'false';
+        }, 300);
+        
+        // 选择槽位
+        this.selectSlot(slotIndex);
     }
     
     // 更新提交按钮状态
@@ -867,6 +1150,114 @@ class PasswordPuzzleGame {
             if (a[i] !== b[i]) return false;
         }
         return true;
+    }
+    
+    // 创建礼花/烟花特效
+    createFireworksEffect() {
+        // 创建礼花容器
+        const fireworksContainer = document.createElement('div');
+        fireworksContainer.className = 'fireworks-container';
+        document.body.appendChild(fireworksContainer);
+        
+        // 礼花颜色数组
+        const fireworkColors = [
+            'firework-color-1', 'firework-color-2', 'firework-color-3',
+            'firework-color-4', 'firework-color-5', 'firework-color-6',
+            'firework-color-7', 'firework-color-8', 'firework-color-9',
+            'firework-color-10'
+        ];
+        
+        // 获取屏幕尺寸
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        
+        // 根据屏幕尺寸调整礼花数量和参数
+        let fireworkCount, explosionRadius, particleCount;
+        
+        if (screenWidth <= 480) {
+            // 小屏幕设备
+            fireworkCount = Math.min(8, Math.floor(screenWidth / 80));
+            explosionRadius = 120;
+            particleCount = 16;
+        } else if (screenWidth <= 768) {
+            // 中等屏幕设备
+            fireworkCount = Math.min(12, Math.floor(screenWidth / 90));
+            explosionRadius = 150;
+            particleCount = 20;
+        } else {
+            // 大屏幕设备
+            fireworkCount = Math.min(15, Math.floor(screenWidth / 100));
+            explosionRadius = 180;
+            particleCount = 24;
+        }
+        
+        for (let i = 0; i < fireworkCount; i++) {
+            // 随机延迟触发
+            setTimeout(() => {
+                this.createSingleFirework(fireworksContainer, fireworkColors, screenWidth, screenHeight, explosionRadius, particleCount);
+            }, i * 200 + Math.random() * 500);
+        }
+        
+        // 清理礼花容器
+        setTimeout(() => {
+            if (document.body.contains(fireworksContainer)) {
+                document.body.removeChild(fireworksContainer);
+            }
+        }, 8000);
+    }
+    
+    // 创建单个礼花爆炸
+    createSingleFirework(container, colors, screenWidth, screenHeight, explosionRadius, particleCount) {
+        // 随机位置，确保礼花不会超出屏幕边界
+        const margin = Math.max(50, explosionRadius);
+        const x = Math.random() * (screenWidth - margin * 2) + margin;
+        const y = Math.random() * (screenHeight - margin * 2) + margin;
+        
+        // 创建主礼花
+        const mainFirework = document.createElement('div');
+        mainFirework.className = 'firework';
+        mainFirework.style.left = x + 'px';
+        mainFirework.style.top = y + 'px';
+        mainFirework.classList.add(colors[Math.floor(Math.random() * colors.length)]);
+        
+        container.appendChild(mainFirework);
+        
+        // 创建爆炸粒子，使用传入的参数
+        const actualParticleCount = particleCount + Math.floor(Math.random() * 8); // 增加更多随机性
+        const actualExplosionRadius = explosionRadius + Math.random() * 60; // 大幅增加爆炸半径的随机性
+        
+        for (let i = 0; i < actualParticleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'firework-particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            
+            // 随机方向
+            const angle = (i / actualParticleCount) * Math.PI * 2 + Math.random() * 0.5;
+            const distance = actualExplosionRadius + Math.random() * 80; // 大幅增加扩散距离
+            const dx = Math.cos(angle) * distance;
+            const dy = Math.sin(angle) * distance;
+            
+            particle.style.setProperty('--dx', dx + 'px');
+            particle.style.setProperty('--dy', dy + 'px');
+            particle.classList.add(colors[Math.floor(Math.random() * colors.length)]);
+            
+            container.appendChild(particle);
+        }
+        
+        // 清理粒子
+        setTimeout(() => {
+            if (container.contains(mainFirework)) {
+                container.removeChild(mainFirework);
+            }
+            
+            const particles = container.querySelectorAll('.firework-particle');
+            particles.forEach(particle => {
+                if (container.contains(particle)) {
+                    container.removeChild(particle);
+                }
+            });
+        }, 3000);
     }
 }
 
